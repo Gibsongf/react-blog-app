@@ -14,9 +14,8 @@ async function getToken() {
 		});
 
 		if (response.status === 200) {
-			const gotBody = await response.json();
-			// console.log(gotBody);
-			return gotBody;
+			const data = await response.json();
+			return data;
 		} else {
 			throw new Error();
 		}
@@ -27,6 +26,7 @@ async function getToken() {
 async function getIndexData() {
 	// Save the token at local storage and just call the function when there is none saved
 	const data = await getToken();
+	const local = localStorage()
 	const url = "http://localhost:5000/api/blog-author/";
 	try {
 		const response = await fetch(url, {
@@ -37,9 +37,9 @@ async function getIndexData() {
 			},
 		});
 		if (response.status === 200) {
-			const gotBody = await response.json();
-			// console.log(gotBody);
-			return gotBody;
+			const data = await response.json();
+			console.log(data);
+			return data;
 		}
 	} catch (err) {
 		throw Error(err);
