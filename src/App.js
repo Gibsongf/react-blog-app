@@ -1,7 +1,8 @@
 import "./styles/App.css";
-import ApiData from "./Api";
+import {blogAuthorData} from "./Api";
 // import uniqid from "uniqid";
 import { AllPost } from "./components/Posts";
+import { useEffect } from "react";
 const Header = (props) => {
 	const { fname, lname, description } = props;
 	return (
@@ -43,7 +44,8 @@ const fakeData = {
 };
 
 function App() {
-	// const data = ApiData();
+	let data = blogAuthorData();
+ 
 	return (
 		<div className="App">
 			<Header

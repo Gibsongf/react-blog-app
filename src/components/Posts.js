@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { updatePost } from "../Api";
 export const EditPostForm = (props) => {
 	const { title, text, published } = props;
 	const obj = { title, text, published };
@@ -9,7 +9,10 @@ export const EditPostForm = (props) => {
 	};
 	useEffect(() => console.log(state), [state]);
 	const handleSubmit = (e) => {
+        console.log(props.dbId)
         e.preventDefault()
+        updatePost(props.dbId,state)
+        console.log('updated ?')
     };
 	return (
 		<form action="PUT">
@@ -81,6 +84,7 @@ export const AllPost = (props) => {
 							author={author}
 							timestamp={post.timestamp}
 							text={post.text}
+                            dbId={post._id}
 						/>
 					);
 				})}

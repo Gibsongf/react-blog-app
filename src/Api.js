@@ -1,4 +1,4 @@
-async function getToken() {
+async function apiLogin() {
 	const url = "http://localhost:5000/users/login";
 	const loginData = {
 		username: "test",
@@ -23,28 +23,42 @@ async function getToken() {
 		throw Error(error);
 	}
 }
-async function getIndexData() {
-	// Save the token at local storage and just call the function when there is none saved
-	const data = await getToken();
-	// console.log(data)
-	localStorage.setItem('token',data.token)
-	localStorage.setItem('db_id',data.id)
-	const url = "http://localhost:5000/api/blog-author/";
+export async function setupFetch(url, reqType = "get",body) {
+	if (!localStorage["token"]) {
+		const data = await apiLogin();
+		localStorage.setItem("token", data.token);
+		localStorage.setItem("db_id", data.id);
+		console.log("Done login and save token/id");
+	}
+	const reqInfo = {
+		method: reqType,
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + localStorage["token"],
+		},
+	}
+	if(body){
+		body = JSON.stringify(body)
+	}
 	try {
-		const response = await fetch(url, {
-			method: "get",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: "Bearer " + data.token,
-			},
-		});
-		if (response.status === 200) {
+		const response = await fetch(url, reqInfo);
+		console.log(response.status);
+		if (response.status === 200 || response.status === 201) {
 			const data = await response.json();
-			// console.log(data);
 			return data;
 		}
 	} catch (err) {
 		throw Error(err);
 	}
 }
-export default getIndexData
+export async function blogAuthorData() {
+	// Save the token at local storage and just call the function when there is none saved
+	const url = "http://localhost:5000/api/blog-author/";
+	return setupFetch(url);
+}
+
+// send a edited post from form
+export async function updatePost(id,formData) {
+	const url = `http://localhost:5000/api/post/${id}/edit`;
+	return setupFetch(url,'put',formData)
+}
