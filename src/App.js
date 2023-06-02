@@ -1,6 +1,6 @@
 import "./styles/App.css";
-import ApiData from "./getData";
-import uniqid from "uniqid";
+import ApiData from "./Api";
+// import uniqid from "uniqid";
 import { AllPost } from "./components/Posts";
 const Header = (props) => {
 	const { fname, lname, description } = props;
