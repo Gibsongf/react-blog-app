@@ -23,27 +23,25 @@ async function apiLogin() {
 		throw Error(error);
 	}
 }
-export async function setupFetch(url, reqType = "get",body) {
+async function setupFetch(url, reqMethod = "get", body) {
 	if (!localStorage["token"]) {
 		const data = await apiLogin();
 		localStorage.setItem("token", data.token);
-		localStorage.setItem("db_id", data.id);
-		console.log("Done login and save token/id");
 	}
-	const reqInfo = {
-		method: reqType,
+	const reqConfig = {
+		method: reqMethod,
 		headers: {
 			"Content-Type": "application/json",
 			Authorization: "Bearer " + localStorage["token"],
 		},
-	}
-	if(body){
-		body = JSON.stringify(body)
+	};
+	if (body) {
+		reqConfig.body = JSON.stringify(body);
 	}
 	try {
-		const response = await fetch(url, reqInfo);
+		const response = await fetch(url, reqConfig);
 		console.log(response.status);
-		if (response.status === 200 || response.status === 201) {
+		if (response.status === 200) {
 			const data = await response.json();
 			return data;
 		}
@@ -51,14 +49,22 @@ export async function setupFetch(url, reqType = "get",body) {
 		throw Error(err);
 	}
 }
-export async function blogAuthorData() {
+export async function getIndexData() {
 	// Save the token at local storage and just call the function when there is none saved
 	const url = "http://localhost:5000/api/blog-author/";
-	return setupFetch(url);
+	const data = await setupFetch(url);
+	// localStorage.setItem('data',JSON.stringify(data))
+	return data;
 }
-
-// send a edited post from form
-export async function updatePost(id,formData) {
+export async function updatePost(id, formData) {
+	// Save the token at local storage and just call the function when there is none saved
 	const url = `http://localhost:5000/api/post/${id}/edit`;
-	return setupFetch(url,'put',formData)
+	const data = await setupFetch(url, "put", formData);
+	return data;
+}
+export async function uniquePost(id) {
+	// Save the token at local storage and just call the function when there is none saved
+	const url = `http://localhost:5000/api/post/${id}`;
+	const data = await setupFetch(url, "get");
+	return data;
 }
