@@ -28,7 +28,10 @@ const AuthorInfo = (props) => {
         </div>
     );
 };
-
+// modify the uniquePost the fetch the post id and 
+// the messages of that post and render then,
+// test if the edit method is working and add a delete message
+// and add new message at the post and save in the api
 function App() {
     const [data, setData] = useState(null);
     const [postId, setPostId] = useState();
@@ -72,7 +75,7 @@ function App() {
                         </>
                     }
                 />
-                <Route path="/post/:id" element={<UniquePost id={postId} />} />
+                <Route path="/post/:id" element={<UniquePost postId={postId} author={data.author}/>} />
             </Routes>
         </div>
     );
