@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
-import { uniquePost } from "../Api";
+import { getPostDetails, deletePost } from "../Api";
 import { NavLink } from "react-router-dom";
 import { PostEditForm } from "./EditForm";
-import { PostComment } from "./Comment";
-import "../styles/UniquePost.css";
+import { PostComment, NewComment } from "./Comment";
+import "../styles/PostDetails.css";
 
-const PostDelConfirmation = ({ isDeleteMode, setDeleteMode }) => {
+const PostDelConfirmation = ({ isDeleteMode, setDeleteMode, dbID }) => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        deletePost(dbID);
+        setDeleteMode(!isDeleteMode);
+    };
     return (
         <>
             <h3>Do you want to delete this Post? </h3>
             <form action="DELETE">
-                <button type="submit">Yes</button>
+                <button onClick={handleSubmit} type="submit">
+                    Yes
+                </button>
                 <button
                     onClick={() => setDeleteMode(!isDeleteMode)}
                     type="button"
@@ -22,12 +29,8 @@ const PostDelConfirmation = ({ isDeleteMode, setDeleteMode }) => {
     );
 };
 
-const PostButtons = ({
-    setEditMode,
-    isEditMode,
-    setDeleteMode,
-    isDeleteMode,
-}) => {
+const PostButtons = (props) => {
+    const { setEditMode, isEditMode, setDeleteMode, isDeleteMode } = props;
     return (
         <div className="buttons">
             <button onClick={() => setEditMode(!isEditMode)}>Edit Post</button>
@@ -47,6 +50,8 @@ export const PostDetails = (props) => {
             return (
                 <PostComment
                     key={comment._id}
+                    commentID={comment._id}
+                    postID={postId}
                     userName={comment.user_name}
                     text={comment.text}
                     timestamp={comment.timestamp}
@@ -54,10 +59,13 @@ export const PostDetails = (props) => {
             );
         });
     };
+    // When update happen find a way to update the page useEffect for it 
+    // using a state called wasUpdated that
+    //fetch data every time that this state change
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await uniquePost(postId);
+                const result = await getPostDetails(postId);
                 setCurrentPost(result.post);
                 setPostComments(result.comment);
             } catch (error) {
@@ -100,10 +108,13 @@ export const PostDetails = (props) => {
                     <PostDelConfirmation
                         setDeleteMode={setDeleteMode}
                         isDeleteMode={isDeleteMode}
+                        dbID={postId}
                     />
                 )}
             </div>
             {postComments.length > 0 ? renderComments() : ""}
+            <NewComment postID={postId} />
+
         </div>
     );
 };

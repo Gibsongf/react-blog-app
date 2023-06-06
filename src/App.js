@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 // import uniqid from "uniqid";
 import { AllPost } from "./components/Posts";
 import { Routes, Route } from "react-router-dom";
-import { PostDetails } from "./components/UniquePost";
+import { PostDetails } from "./components/PostDetails";
 
 const Header = () => {
     return (
