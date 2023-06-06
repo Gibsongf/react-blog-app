@@ -15,6 +15,7 @@ async function apiLogin() {
 
 		if (response.status === 200) {
 			const data = await response.json();
+			console.log('Login successfully')
 			return data;
 		} else {
 			throw new Error();
@@ -50,21 +51,26 @@ async function setupFetch(url, reqMethod = "get", body) {
 	}
 }
 export async function getIndexData() {
-	// Save the token at local storage and just call the function when there is none saved
-	const url = "http://localhost:5000/api/blog-author/";
+	const url = "http://localhost:5000/api/blog-owner/";
 	const data = await setupFetch(url);
 	// localStorage.setItem('data',JSON.stringify(data))
 	return data;
 }
 export async function updatePost(id, formData) {
-	// Save the token at local storage and just call the function when there is none saved
 	const url = `http://localhost:5000/api/post/${id}/edit`;
+	console.log(id,formData)
 	const data = await setupFetch(url, "put", formData);
-	return data;
+	// return data;
 }
 export async function uniquePost(id) {
-	// Save the token at local storage and just call the function when there is none saved
 	const url = `http://localhost:5000/api/post/${id}`;
 	const data = await setupFetch(url, "get");
+	return data;
+}
+
+export async function deletePost(id) {
+	// Save the token at local storage and just call the function when there is none saved
+	const url = `http://localhost:5000/api/post/${id}`;
+	const data = await setupFetch(url, "delete");
 	return data;
 }

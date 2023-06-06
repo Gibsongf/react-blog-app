@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 // import uniqid from "uniqid";
 import { AllPost } from "./components/Posts";
 import { Routes, Route } from "react-router-dom";
-import { UniquePost } from "./components/UniquePost";
+import { PostDetails } from "./components/UniquePost";
 
 const Header = () => {
     return (
@@ -28,9 +28,8 @@ const AuthorInfo = (props) => {
         </div>
     );
 };
-// modify the uniquePost the fetch the post id and 
-// the messages of that post and render then,
-// test if the edit method is working and add a delete message
+// at UniquePost
+// add a delete message
 // and add new message at the post and save in the api
 function App() {
     const [data, setData] = useState(null);
@@ -75,7 +74,7 @@ function App() {
                         </>
                     }
                 />
-                <Route path="/post/:id" element={<UniquePost postId={postId} author={data.author}/>} />
+                <Route path="/post/:id" element={<PostDetails postId={postId} author={data.author}/>} />
             </Routes>
         </div>
     );

@@ -1,81 +1,51 @@
 import { useEffect, useState } from "react";
-import { uniquePost, updatePost } from "../Api";
+import { uniquePost } from "../Api";
 import { NavLink } from "react-router-dom";
-import '../styles/UniquePost.css'
-const EditPostForm = (props) => {
-    const { title, text, published } = props;
-    const initialState = { title, text, published };
-    const [formData, setFormData] = useState(initialState);
-    const handleInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        updatePost(props.dbId, formData);
-        props.setEditMode(false);
-    };
+import { PostEditForm } from "./EditForm";
+import { PostComment } from "./Comment";
+import "../styles/UniquePost.css";
+
+const PostDelConfirmation = ({ isDeleteMode, setDeleteMode }) => {
     return (
-        <form method="POST" action="">
-            <div className="title">
-                <label htmlFor="title">Title:</label>
-                <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                />
-            </div>
-            <div className="post-text">
-                <label htmlFor="post-text">Text:</label>
-                <input
-                    type="text"
-                    id="post-text"
-                    name="text"
-                    value={formData.text}
-                    onChange={handleInputChange}
-                />
-            </div>
-            {/* need to pass the published value as default */}
-            <div className="published">
-                <label htmlFor="published">Published:</label>
-                <select
-                    name="published"
-                    id="published"
-                    onChange={handleInputChange}
+        <>
+            <h3>Do you want to delete this Post? </h3>
+            <form action="DELETE">
+                <button type="submit">Yes</button>
+                <button
+                    onClick={() => setDeleteMode(!isDeleteMode)}
+                    type="button"
                 >
-                    <option value="true">true</option>
-                    <option value="false">false</option>
-                </select>
-            </div>
-            <button onClick={handleSubmit} type="submit">
-                Confirm Edit
-            </button>
-            <button onClick={() => props.setEditMode(false)} type="button">
-                Cancel
-            </button>
-        </form>
+                    No
+                </button>
+            </form>
+        </>
     );
 };
-const Comment = ({ userName, text, timestamp }) => {
+
+const PostButtons = ({
+    setEditMode,
+    isEditMode,
+    setDeleteMode,
+    isDeleteMode,
+}) => {
     return (
-        <div className="comments">
-            <p>{userName}</p>
-            <p>{text}</p>
-            <p>{timestamp}</p>
+        <div className="buttons">
+            <button onClick={() => setEditMode(!isEditMode)}>Edit Post</button>
+            <button onClick={() => setDeleteMode(!isDeleteMode)}>Delete</button>
         </div>
     );
 };
-export const UniquePost = (props) => {
+export const PostDetails = (props) => {
     const { author, postId } = props;
     const [isEditMode, setEditMode] = useState(false);
+    const [isDeleteMode, setDeleteMode] = useState(false);
     const [currentPost, setCurrentPost] = useState(null);
     const [postComments, setPostComments] = useState(null);
 
     const renderComments = () => {
         return postComments.map((comment) => {
             return (
-                <Comment
+                <PostComment
                     key={comment._id}
                     userName={comment.user_name}
                     text={comment.text}
@@ -95,10 +65,10 @@ export const UniquePost = (props) => {
             }
         };
         fetchData();
-    }, [postId]);
-    if (isEditMode === true) {
+    }, [postId, isEditMode]);
+    if (isEditMode) {
         return (
-            <EditPostForm
+            <PostEditForm
                 {...currentPost}
                 editMode={isEditMode}
                 setEditMode={setEditMode}
@@ -109,9 +79,8 @@ export const UniquePost = (props) => {
         // Data is still being fetched
         return <div>Loading...</div>;
     }
-    // here we need to call the api to get the messages and all the info of this post
     return (
-        <div className="content">
+        <div className="contents">
             <div className="post">
                 <h2 className="title">{currentPost.title}</h2>
                 <h2 className="author">
@@ -119,9 +88,20 @@ export const UniquePost = (props) => {
                 </h2>
                 <h4>{currentPost.timestamp}</h4>
                 <p className="post-content">{currentPost.text}</p>
-                <button onClick={() => setEditMode(!isEditMode)}>
-                    Edit Post
-                </button>
+
+                {!isDeleteMode ? (
+                    <PostButtons
+                        isEditMode={isEditMode}
+                        isDeleteMode={isDeleteMode}
+                        setDeleteMode={setDeleteMode}
+                        setEditMode={setEditMode}
+                    />
+                ) : (
+                    <PostDelConfirmation
+                        setDeleteMode={setDeleteMode}
+                        isDeleteMode={isDeleteMode}
+                    />
+                )}
             </div>
             {postComments.length > 0 ? renderComments() : ""}
         </div>
