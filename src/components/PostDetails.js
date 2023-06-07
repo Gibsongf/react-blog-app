@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { getPostDetails, deletePost } from "../Api";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 import { PostEditForm } from "./EditForm";
 import { PostComment, NewComment } from "./Comment";
 import "../styles/PostDetails.css";
 
-const PostDelConfirmation = ({ isDeleteMode, setDeleteMode, dbID }) => {
+const ConfirmDeletion = (props) => {
+    const { isDeleteMode, setDeleteMode, dbID } = props;
+    const { setWasUpdated, wasUpdated } = props;
     const handleSubmit = (e) => {
         e.preventDefault();
         deletePost(dbID);
         setDeleteMode(!isDeleteMode);
+        setWasUpdated(!wasUpdated);
     };
     return (
         <>
@@ -44,6 +47,7 @@ export const PostDetails = (props) => {
     const [isDeleteMode, setDeleteMode] = useState(false);
     const [currentPost, setCurrentPost] = useState(null);
     const [postComments, setPostComments] = useState(null);
+    const [wasUpdated, setWasUpdated] = useState(false);
 
     const renderComments = () => {
         return postComments.map((comment) => {
@@ -55,13 +59,13 @@ export const PostDetails = (props) => {
                     userName={comment.user_name}
                     text={comment.text}
                     timestamp={comment.timestamp}
+                    wasUpdated={wasUpdated}
+                    setWasUpdated={setWasUpdated}
                 />
             );
         });
     };
-    // When update happen find a way to update the page useEffect for it 
-    // using a state called wasUpdated that
-    //fetch data every time that this state change
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -73,7 +77,8 @@ export const PostDetails = (props) => {
             }
         };
         fetchData();
-    }, [postId, isEditMode]);
+    }, [postId, isEditMode, wasUpdated]);
+    // useEffect(() => console.log(wasUpdated), [wasUpdated]);
     if (isEditMode) {
         return (
             <PostEditForm
@@ -105,16 +110,21 @@ export const PostDetails = (props) => {
                         setEditMode={setEditMode}
                     />
                 ) : (
-                    <PostDelConfirmation
+                    <ConfirmDeletion
                         setDeleteMode={setDeleteMode}
                         isDeleteMode={isDeleteMode}
                         dbID={postId}
+                        wasUpdated={wasUpdated}
+                        setWasUpdated={setWasUpdated}
                     />
                 )}
             </div>
             {postComments.length > 0 ? renderComments() : ""}
-            <NewComment postID={postId} />
-
+            <NewComment
+                postID={postId}
+                wasUpdated={wasUpdated}
+                setWasUpdated={setWasUpdated}
+            />
         </div>
     );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { deleteComment, newComment } from "../Api";
 
 const ConfirmDeletion = (props) => {
@@ -7,6 +7,7 @@ const ConfirmDeletion = (props) => {
         e.preventDefault();
         deleteComment(postID, commentID);
         setDeleteMode(!isDeleteMode);
+        props.setWasUpdated(!props.wasUpdated);
     };
     return (
         <>
@@ -26,7 +27,7 @@ const ConfirmDeletion = (props) => {
     );
 };
 export const NewComment = (props) => {
-    const initialState = {"user_name":'','comment_text':''}
+    const initialState = { user_name: "", comment_text: "" };
     const [formData, setFormData] = useState(initialState);
 
     const handleInputChange = (e) => {
@@ -34,28 +35,33 @@ export const NewComment = (props) => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        newComment(props.postID,formData);
+        newComment(props.postID, formData);
         // .reset()
+        props.setWasUpdated(!props.wasUpdated);
+        
     };
-    useEffect(()=> console.log(formData),[formData])
+    // useEffect(()=> console.log(formData),[formData])
     return (
-    <form method="post">
-        <label htmlFor="user_name">Name:</label>
-        <input
-            type="text"
-            name="user_name"
-            id="user_name"
-            onChange={handleInputChange}
-        />
-        <input
-            placeholder="Write a comment"
-            type="text"
-            name="comment_text"
-            id="comment_text"
-            onChange={handleInputChange}
-        />
-        <button onClick={handleSubmit} type="submit">Comment</button>
-    </form>);
+        <form method="post">
+            <label htmlFor="user_name">Name:</label>
+            <input
+                type="text"
+                name="user_name"
+                id="user_name"
+                onChange={handleInputChange}
+            />
+            <input
+                placeholder="Write a comment"
+                type="text"
+                name="comment_text"
+                id="comment_text"
+                onChange={handleInputChange}
+            />
+            <button onClick={handleSubmit} type="submit">
+                Comment
+            </button>
+        </form>
+    );
 };
 export const PostComment = (props) => {
     const { userName, text, timestamp, postID, commentID } = props;
@@ -68,7 +74,6 @@ export const PostComment = (props) => {
             <h4>{userName}</h4>
             <p>{timestamp}</p>
             <p>{text}</p>
-            
 
             {!isDeleteMode ? (
                 <button
@@ -83,6 +88,8 @@ export const PostComment = (props) => {
                     isDeleteMode={isDeleteMode}
                     postID={postID}
                     commentID={commentID}
+                    wasUpdated={    props.wasUpdated}
+                    setWasUpdated={ props.setWasUpdated }
                 />
             )}
         </div>

@@ -60,6 +60,7 @@ export async function updatePost(id, formData) {
     const url = `http://localhost:5000/api/post/${id}/edit`;
     // console.log(id, formData);
     const data = await setupFetch(url, "put", formData);
+    return data;
 }
 export async function getPostDetails(id) {
     const url = `http://localhost:5000/api/post/${id}`;
@@ -80,9 +81,9 @@ export async function deleteComment(postID, commentID) {
     return data;
 }
 
-export async function newComment(postID,formData) {
+export async function newComment(postID, formData) {
     const url = `http://localhost:5000/api/post/${postID}/comment`;
     const data = await setupFetch(url, "post", formData);
-    console.log(data)
+    // console.log(data)
     return data;
 }

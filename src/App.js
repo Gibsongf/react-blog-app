@@ -34,9 +34,11 @@ const AuthorInfo = (props) => {
 function App() {
     const [data, setData] = useState(null);
     const [postId, setPostId] = useState();
+
     const savePostId = (e) => {
         setPostId(e.target.id);
     };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -46,23 +48,25 @@ function App() {
                 console.error("Error fetching data:", error);
             }
         };
+
         fetchData();
     }, []);
+
     if (!data) {
         // Data is still being fetched
         return <div>Loading...</div>;
     }
+
     return (
         <div className="App">
             <Header />
-            {/* <AllPost allPosts={data.posts} author={data.author.first_name} /> */}
             <Routes>
                 <Route
                     path="/"
                     element={
                         <>
                             <AuthorInfo
-                                fname={data.author.first_name} //some
+                                fname={data.author.first_name}
                                 lname={data.author.last_name}
                                 description={data.author.description}
                             />
@@ -74,10 +78,17 @@ function App() {
                         </>
                     }
                 />
-                <Route path="/post/:id" element={<PostDetails postId={postId} author={data.author}/>} />
+                <Route
+                    path="/post/:id"
+                    element={
+                        <PostDetails postId={postId} author={data.author} />
+                    }
+                />
             </Routes>
         </div>
     );
 }
+
+
 
 export default App;
