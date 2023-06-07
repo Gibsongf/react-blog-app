@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-
 const Post = ({ title, timestamp, text, setPostId, id }) => {
 	return (
 		<div className="posts">
@@ -13,6 +12,7 @@ const Post = ({ title, timestamp, text, setPostId, id }) => {
 		</div>
 	);
 };
+
 export const AllPost = ({ allPosts, author, setPostId }) => {
 	return (
 		<>

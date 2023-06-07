@@ -56,6 +56,14 @@ export async function getIndexData() {
     // localStorage.setItem('data',JSON.stringify(data))
     return data;
 }
+
+export async function newPost(formData) {
+    const url = `http://localhost:5000/api/post/`;
+    const data = await setupFetch(url, "post", formData);
+    // console.log(data)
+    return data;
+}
+
 export async function updatePost(id, formData) {
     const url = `http://localhost:5000/api/post/${id}/edit`;
     // console.log(id, formData);

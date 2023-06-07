@@ -1,5 +1,5 @@
 import {useState } from "react";
-import {updatePost } from "../Api";
+import {newPost, updatePost } from "../Api";
 // import "../styles/UniquePost.css";
 
 export const PostEditForm = (props) => {
@@ -57,3 +57,39 @@ export const PostEditForm = (props) => {
         </form>
     );
 };
+
+export const FormNewPost = (props) => {
+	const initialState = { text: "", title: "" };
+    const [formData, setFormData] = useState(initialState);
+
+    const handleInputChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        newPost(formData);
+        props.setWasUpdated(!props.wasUpdated);
+        
+    };
+	return(
+		<form method="post">
+            <label htmlFor="title">Title:</label>
+            <input
+                type="text"
+                name="title"
+                id="title"
+                onChange={handleInputChange}
+            />
+            <input
+                placeholder="Write your new post"
+                type="text"
+                name="text"
+                id="text"
+                onChange={handleInputChange}
+            />
+            <button onClick={handleSubmit} type="submit">
+                Post
+            </button>
+        </form>
+	)
+}

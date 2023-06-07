@@ -2,9 +2,10 @@ import "./styles/App.css";
 import { getIndexData } from "./Api";
 import { useEffect, useState } from "react";
 // import uniqid from "uniqid";
-import { AllPost } from "./components/Posts";
+// import { AllPost } from "./components/Posts";
 import { Routes, Route } from "react-router-dom";
 import { PostDetails } from "./components/PostDetails";
+import { Home } from "./pages/Home";
 
 const Header = () => {
     return (
@@ -16,31 +17,20 @@ const Header = () => {
     );
 };
 
-const AuthorInfo = (props) => {
-    const { fname, lname, description } = props;
-
-    return (
-        <div className="author-details">
-            <h1>
-                {fname} {lname}
-            </h1>
-            <h1>{description.length > 0 ? description : ""}</h1>
-        </div>
-    );
-};
 // at UniquePost
 // add a delete message
 // and add new message at the post and save in the api
 function App() {
     const [data, setData] = useState(null);
     const [postId, setPostId] = useState();
+    const [wasUpdated, setWasUpdated] = useState(false);
 
     const savePostId = (e) => {
         setPostId(e.target.id);
     };
-
     useEffect(() => {
         const fetchData = async () => {
+            console.log("Fetching data");
             try {
                 const result = await getIndexData();
                 setData(result);
@@ -50,12 +40,7 @@ function App() {
         };
 
         fetchData();
-    }, []);
-
-    if (!data) {
-        // Data is still being fetched
-        return <div>Loading...</div>;
-    }
+    }, [wasUpdated]);
 
     return (
         <div className="App">
@@ -64,31 +49,27 @@ function App() {
                 <Route
                     path="/"
                     element={
-                        <>
-                            <AuthorInfo
-                                fname={data.author.first_name}
-                                lname={data.author.last_name}
-                                description={data.author.description}
-                            />
-                            <AllPost
-                                allPosts={data.posts}
-                                author={data.author.first_name}
-                                setPostId={savePostId}
-                            />
-                        </>
+                        <Home
+                            savePostId={savePostId}
+                            data={data}
+                            wasUpdated={wasUpdated}
+                            setWasUpdated={setWasUpdated}
+                        />
                     }
                 />
                 <Route
                     path="/post/:id"
                     element={
-                        <PostDetails postId={postId} author={data.author} />
+                        data ? (
+                            <PostDetails postId={postId} author={data.author} />
+                        ) : (
+                            ""
+                        )
                     }
                 />
             </Routes>
         </div>
     );
 }
-
-
 
 export default App;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPostDetails, deletePost } from "../Api";
 // import { NavLink } from "react-router-dom";
-import { PostEditForm } from "./EditForm";
+import { PostEditForm } from "./Forms";
 import { PostComment, NewComment } from "./Comment";
 import "../styles/PostDetails.css";
 
@@ -48,7 +48,7 @@ export const PostDetails = (props) => {
     const [currentPost, setCurrentPost] = useState(null);
     const [postComments, setPostComments] = useState(null);
     const [wasUpdated, setWasUpdated] = useState(false);
-
+    
     const renderComments = () => {
         return postComments.map((comment) => {
             return (
@@ -78,7 +78,6 @@ export const PostDetails = (props) => {
         };
         fetchData();
     }, [postId, isEditMode, wasUpdated]);
-    // useEffect(() => console.log(wasUpdated), [wasUpdated]);
     if (isEditMode) {
         return (
             <PostEditForm
