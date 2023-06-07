@@ -41,7 +41,9 @@ function App() {
 
         fetchData();
     }, [wasUpdated]);
-
+    useEffect(() => {
+        console.log(wasUpdated);
+    }, [wasUpdated]);
     return (
         <div className="App">
             <Header />
@@ -61,7 +63,12 @@ function App() {
                     path="/post/:id"
                     element={
                         data ? (
-                            <PostDetails postId={postId} author={data.author} />
+                            <PostDetails
+                                postId={postId}
+                                author={data.author}
+                                homeUpdate={wasUpdated}
+                                setHomeUpdate={setWasUpdated}
+                            />
                         ) : (
                             ""
                         )

@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import { getPostDetails, deletePost } from "../Api";
-// import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { PostEditForm } from "./Forms";
 import { PostComment, NewComment } from "./Comment";
 import "../styles/PostDetails.css";
 
-const ConfirmDeletion = (props) => {
+const ConfirmPostDeletion = (props) => {
     const { isDeleteMode, setDeleteMode, dbID } = props;
-    const { setWasUpdated, wasUpdated } = props;
+    const { setHomeUpdate, homeUpdate } = props;
     const handleSubmit = (e) => {
         e.preventDefault();
+        setHomeUpdate(!homeUpdate);
         deletePost(dbID);
-        setDeleteMode(!isDeleteMode);
-        setWasUpdated(!wasUpdated);
+        // setDeleteMode(!isDeleteMode);
+        document.querySelector('.back-home').click()
     };
     return (
         <>
@@ -72,7 +73,8 @@ export const PostDetails = (props) => {
                 const result = await getPostDetails(postId);
                 setCurrentPost(result.post);
                 setPostComments(result.comment);
-            } catch (error) {
+            } catch (error) {    
+
                 console.error("Error fetching data:", error);
             }
         };
@@ -93,6 +95,9 @@ export const PostDetails = (props) => {
     }
     return (
         <div className="contents">
+            <NavLink to='/' className='back-home'>
+                Home
+            </NavLink>
             <div className="post">
                 <h2 className="title">{currentPost.title}</h2>
                 <h2 className="author">
@@ -109,12 +114,12 @@ export const PostDetails = (props) => {
                         setEditMode={setEditMode}
                     />
                 ) : (
-                    <ConfirmDeletion
+                    <ConfirmPostDeletion
                         setDeleteMode={setDeleteMode}
                         isDeleteMode={isDeleteMode}
                         dbID={postId}
-                        wasUpdated={wasUpdated}
-                        setWasUpdated={setWasUpdated}
+                        homeUpdate={props.homeUpdate}
+s                       setHomeUpdate={props.setHomeUpdate}
                     />
                 )}
             </div>
