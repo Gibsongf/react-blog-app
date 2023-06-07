@@ -1,10 +1,6 @@
 import "../styles/App.css";
-import { getIndexData } from "../Api";
-import { useEffect, useState } from "react";
-// import uniqid from "uniqid";
 import { AllPost } from "../components/Posts";
 import { FormNewPost } from "../components/Forms";
-// import { Routes, Route } from "react-router-dom";
 
 const AuthorInfo = (props) => {
     const { fname, lname, description } = props;

@@ -38,9 +38,7 @@ export const NewComment = (props) => {
         newComment(props.postID, formData);
         // .reset()
         props.setWasUpdated(!props.wasUpdated);
-        
     };
-    // useEffect(()=> console.log(formData),[formData])
     return (
         <form method="post">
             <label htmlFor="user_name">Name:</label>
@@ -88,8 +86,8 @@ export const PostComment = (props) => {
                     isDeleteMode={isDeleteMode}
                     postID={postID}
                     commentID={commentID}
-                    wasUpdated={    props.wasUpdated}
-                    setWasUpdated={ props.setWasUpdated }
+                    wasUpdated={props.wasUpdated}
+                    setWasUpdated={props.setWasUpdated}
                 />
             )}
         </div>

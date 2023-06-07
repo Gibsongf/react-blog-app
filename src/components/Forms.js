@@ -1,5 +1,5 @@
-import {useState } from "react";
-import {newPost, updatePost } from "../Api";
+import { useState } from "react";
+import { newPost, updatePost } from "../Api";
 // import "../styles/UniquePost.css";
 
 export const PostEditForm = (props) => {
@@ -59,7 +59,7 @@ export const PostEditForm = (props) => {
 };
 
 export const FormNewPost = (props) => {
-	const initialState = { text: "", title: "" };
+    const initialState = { text: "", title: "" };
     const [formData, setFormData] = useState(initialState);
 
     const handleInputChange = (e) => {
@@ -69,10 +69,9 @@ export const FormNewPost = (props) => {
         e.preventDefault();
         newPost(formData);
         props.setWasUpdated(!props.wasUpdated);
-        
     };
-	return(
-		<form method="post">
+    return (
+        <form method="post">
             <label htmlFor="title">Title:</label>
             <input
                 type="text"
@@ -91,5 +90,5 @@ export const FormNewPost = (props) => {
                 Post
             </button>
         </form>
-	)
-}
+    );
+};

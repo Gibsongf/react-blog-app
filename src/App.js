@@ -41,9 +41,7 @@ function App() {
 
         fetchData();
     }, [wasUpdated]);
-    useEffect(() => {
-        console.log(wasUpdated);
-    }, [wasUpdated]);
+
     return (
         <div className="App">
             <Header />

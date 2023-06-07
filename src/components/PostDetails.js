@@ -13,7 +13,7 @@ const ConfirmPostDeletion = (props) => {
         setHomeUpdate(!homeUpdate);
         deletePost(dbID);
         // setDeleteMode(!isDeleteMode);
-        document.querySelector('.back-home').click()
+        document.querySelector(".back-home").click();
     };
     return (
         <>
@@ -49,7 +49,7 @@ export const PostDetails = (props) => {
     const [currentPost, setCurrentPost] = useState(null);
     const [postComments, setPostComments] = useState(null);
     const [wasUpdated, setWasUpdated] = useState(false);
-    
+
     const renderComments = () => {
         return postComments.map((comment) => {
             return (
@@ -73,8 +73,7 @@ export const PostDetails = (props) => {
                 const result = await getPostDetails(postId);
                 setCurrentPost(result.post);
                 setPostComments(result.comment);
-            } catch (error) {    
-
+            } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
@@ -95,7 +94,7 @@ export const PostDetails = (props) => {
     }
     return (
         <div className="contents">
-            <NavLink to='/' className='back-home'>
+            <NavLink to="/" className="back-home">
                 Home
             </NavLink>
             <div className="post">
@@ -119,7 +118,8 @@ export const PostDetails = (props) => {
                         isDeleteMode={isDeleteMode}
                         dbID={postId}
                         homeUpdate={props.homeUpdate}
-s                       setHomeUpdate={props.setHomeUpdate}
+                        s
+                        setHomeUpdate={props.setHomeUpdate}
                     />
                 )}
             </div>
