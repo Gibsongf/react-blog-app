@@ -3,7 +3,7 @@ import { newPost, updatePost } from "../Api";
 // import "../styles/UniquePost.css";
 
 export const PostEditForm = (props) => {
-    const { title, text, published } = props;
+    const { title, text, published, setHomeUpdate,homeUpdate } = props;
     const initialState = { title, text, published };
     const [formData, setFormData] = useState(initialState);
     const handleInputChange = (e) => {
@@ -13,7 +13,13 @@ export const PostEditForm = (props) => {
         e.preventDefault();
         updatePost(props._id, formData);
         props.setEditMode(false);
+        setHomeUpdate(!homeUpdate);
+
     };
+    const publishedValue = () =>{
+        const reverse = !published
+        return reverse.toString()
+    }
     return (
         <form method="POST" action="" className="edit-form">
             <div className="title">
@@ -44,8 +50,8 @@ export const PostEditForm = (props) => {
                     id="published"
                     onChange={handleInputChange}
                 >
-                    <option value="false">false</option>
-                    <option value="true">true</option>
+                    <option value={published}>{published.toString()}</option>
+                    <option value={!published}>{publishedValue()}</option>
                 </select>
             </div>
             <button onClick={handleSubmit} type="submit">

@@ -1,13 +1,14 @@
 import { NavLink } from "react-router-dom";
 const Post = ({ title, timestamp, text, setPostId, id }) => {
+    const format_date = new Date().toUTCString(timestamp).replace('GMT','')
     return (
-        <div className="posts">
+        <div className="post">
             <NavLink to={`post/${id}`} onClick={setPostId}>
                 <h2 className="title" id={id}>
                     {title}
                 </h2>
             </NavLink>
-            <h4>{timestamp}</h4>
+            <h4>{format_date}</h4>
             <p>{text}</p>
         </div>
     );

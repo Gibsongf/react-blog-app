@@ -53,7 +53,6 @@ async function setupFetch(url, reqMethod = "get", body) {
 export async function getIndexData() {
     const url = "http://localhost:5000/api/blog-owner/";
     const data = await setupFetch(url);
-    // localStorage.setItem('data',JSON.stringify(data))
     return data;
 }
 

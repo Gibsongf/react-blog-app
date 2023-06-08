@@ -17,9 +17,9 @@ const Header = () => {
     );
 };
 
-// at UniquePost
-// add a delete message
-// and add new message at the post and save in the api
+// need to format the date published in post model and comment 
+// 
+// 
 function App() {
     const [data, setData] = useState(null);
     const [postId, setPostId] = useState();

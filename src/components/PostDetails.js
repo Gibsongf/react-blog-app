@@ -3,6 +3,7 @@ import { getPostDetails, deletePost } from "../Api";
 import { NavLink } from "react-router-dom";
 import { PostEditForm } from "./Forms";
 import { PostComment, NewComment } from "./Comment";
+
 import "../styles/PostDetails.css";
 
 const ConfirmPostDeletion = (props) => {
@@ -71,6 +72,9 @@ export const PostDetails = (props) => {
         const fetchData = async () => {
             try {
                 const result = await getPostDetails(postId);
+                result.post.timestamp = new Date()
+                    .toUTCString(result.post.timestamp)
+                    .replace("GMT", "");
                 setCurrentPost(result.post);
                 setPostComments(result.comment);
             } catch (error) {
@@ -85,6 +89,8 @@ export const PostDetails = (props) => {
                 {...currentPost}
                 editMode={isEditMode}
                 setEditMode={setEditMode}
+                homeUpdate={props.homeUpdate}
+                setHomeUpdate={props.setHomeUpdate}
             />
         );
     }
@@ -102,6 +108,7 @@ export const PostDetails = (props) => {
                 <h2 className="author">
                     {author.first_name + " " + author.last_name}
                 </h2>
+                {/* DateTime.fromJSDate(this.timestamp).toLocaleString(DateTime.DATETIME_FULL) */}
                 <h4>{currentPost.timestamp}</h4>
                 <p className="post-content">{currentPost.text}</p>
 
@@ -118,7 +125,6 @@ export const PostDetails = (props) => {
                         isDeleteMode={isDeleteMode}
                         dbID={postId}
                         homeUpdate={props.homeUpdate}
-                        s
                         setHomeUpdate={props.setHomeUpdate}
                     />
                 )}
