@@ -1,7 +1,7 @@
 async function apiLogin() {
     const url = "http://localhost:5000/users/login";
     const loginData = {
-        username: "test",
+        username: "gibson",
         password: "password",
     };
     try {
@@ -45,6 +45,10 @@ async function setupFetch(url, reqMethod = "get", body) {
         if (response.status === 200) {
             const data = await response.json();
             return data;
+        }
+        if(response.status === 401){
+            localStorage.removeItem('token')
+            return 'Old token'
         }
     } catch (err) {
         throw Error(err);

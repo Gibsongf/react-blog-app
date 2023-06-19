@@ -3,7 +3,7 @@ import { newPost, updatePost } from "../Api";
 // import "../styles/UniquePost.css";
 
 export const PostEditForm = (props) => {
-    const { title, text, published, setHomeUpdate,homeUpdate } = props;
+    const { title, text, published, setHomeUpdate, homeUpdate } = props;
     const initialState = { title, text, published };
     const [formData, setFormData] = useState(initialState);
     const handleInputChange = (e) => {
@@ -14,12 +14,11 @@ export const PostEditForm = (props) => {
         updatePost(props._id, formData);
         props.setEditMode(false);
         setHomeUpdate(!homeUpdate);
-
     };
-    const publishedValue = () =>{
-        const reverse = !published
-        return reverse.toString()
-    }
+    const publishedValue = () => {
+        const reverse = !published;
+        return reverse.toString();
+    };
     return (
         <form method="POST" action="" className="edit-form">
             <div className="title">
@@ -71,27 +70,44 @@ export const FormNewPost = (props) => {
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+    // some func to check if the input has the min len and change border color if not  to inform user
     const handleSubmit = (e) => {
         e.preventDefault();
         newPost(formData);
         props.setWasUpdated(!props.wasUpdated);
     };
     return (
-        <form method="post">
-            <label htmlFor="title">Title:</label>
+        <form method="post" className="new-post">
+            {/* <label htmlFor="title">Title:</label> */}
             <input
+                placeholder="Title"
                 type="text"
                 name="title"
                 id="title"
                 onChange={handleInputChange}
+                required='true'
             />
-            <input
+            <textarea
                 placeholder="Write your new post"
                 type="text"
                 name="text"
                 id="text"
+                minLength='10'
                 onChange={handleInputChange}
-            />
+                required='true'
+            ></textarea>
+            {/* /> */}
+            <div className="published">
+            <label htmlFor="published">Published: </label>
+            <select
+                name="published"
+                id="published"
+                onChange={handleInputChange}
+            >
+                <option value={false}>No</option>
+                <option value={true}>Yes</option>
+            </select>
+            </div>
             <button onClick={handleSubmit} type="submit">
                 Post
             </button>

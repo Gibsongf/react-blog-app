@@ -64,13 +64,11 @@ export const NewComment = (props) => {
 export const PostComment = (props) => {
     const { userName, text, timestamp, postID, commentID } = props;
     const [isDeleteMode, setDeleteMode] = useState(false);
-    // When deleted find a way to update the page
-    // using a state called wasUpdated that
-    //fetch data every time that this state change
+    const format_date = new Date().toUTCString(timestamp).replace("GMT", "");
     return (
         <div className="comments">
-            <h4>{userName}</h4>
-            <p>{timestamp}</p>
+            <p>{userName}</p>
+            <p>{format_date}</p>
             <p>{text}</p>
 
             {!isDeleteMode ? (

@@ -3,23 +3,25 @@ import { getIndexData } from "./Api";
 import { useEffect, useState } from "react";
 // import uniqid from "uniqid";
 // import { AllPost } from "./components/Posts";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, NavLink } from "react-router-dom";
 import { PostDetails } from "./components/PostDetails";
 import { Home } from "./pages/Home";
+import { FormNewPost } from "./components/Forms";
 
-const Header = () => {
+const NavBar = () => {
+    
     return (
-        <div className="header">
-            <div className="nav-bar">
-                <h1>Blog Author Section</h1>
-            </div>
+        <div className="nav-bar">
+            <h1>Blog Editor</h1>
+            <NavLink to="/" className="back-home">
+               <button className="home">Home</button>
+            </NavLink>
         </div>
     );
 };
 
-// need to format the date published in post model and comment 
-// 
-// 
+// page with just the users that will direct for their post pages
+//
 function App() {
     const [data, setData] = useState(null);
     const [postId, setPostId] = useState();
@@ -44,35 +46,46 @@ function App() {
 
     return (
         <div className="App">
-            <Header />
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <Home
-                            savePostId={savePostId}
-                            data={data}
-                            wasUpdated={wasUpdated}
-                            setWasUpdated={setWasUpdated}
-                        />
-                    }
-                />
-                <Route
-                    path="/post/:id"
-                    element={
-                        data ? (
-                            <PostDetails
-                                postId={postId}
-                                author={data.author}
-                                homeUpdate={wasUpdated}
-                                setHomeUpdate={setWasUpdated}
+            <NavBar />
+            <div className="content">
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <Home
+                                savePostId={savePostId}
+                                data={data}
+                                wasUpdated={wasUpdated}
+                                setWasUpdated={setWasUpdated}
                             />
-                        ) : (
-                            ""
-                        )
-                    }
-                />
-            </Routes>
+                        }
+                    />
+                    <Route
+                        path="/post/:id"
+                        element={
+                            data ? (
+                                <PostDetails
+                                    postId={postId}
+                                    author={data.author}
+                                    homeUpdate={wasUpdated}
+                                    setHomeUpdate={setWasUpdated}
+                                />
+                            ) : (
+                                ""
+                            )
+                        }
+                    />
+                    <Route
+                        path="/submit"
+                        element={
+                            <FormNewPost
+                                wasUpdated={wasUpdated}
+                                setWasUpdated={setWasUpdated}
+                            />
+                        }
+                    />
+                </Routes>
+            </div>
         </div>
     );
 }

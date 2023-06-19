@@ -98,6 +98,7 @@ export const PostDetails = (props) => {
         // Data is still being fetched
         return <div>Loading...</div>;
     }
+    console.log(currentPost)
     return (
         <div className="contents">
             <NavLink to="/" className="back-home">
@@ -110,6 +111,7 @@ export const PostDetails = (props) => {
                 </h2>
                 {/* DateTime.fromJSDate(this.timestamp).toLocaleString(DateTime.DATETIME_FULL) */}
                 <h4>{currentPost.timestamp}</h4>
+                {/* <h4>Published:{currentPost}</h4> */}
                 <p className="post-content">{currentPost.text}</p>
 
                 {!isDeleteMode ? (

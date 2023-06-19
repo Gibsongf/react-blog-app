@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 const Post = ({ title, timestamp, text, setPostId, id }) => {
-    const format_date = new Date().toUTCString(timestamp).replace('GMT','')
+    // NEED TO FORMAT THE POST DATE THIS ONE IS RETURNING THE SAME THING
+    const date = new Date(timestamp);
+    const format_date = date.toUTCString().replace("GMT", "");
     return (
         <div className="post">
             <NavLink to={`post/${id}`} onClick={setPostId}>
@@ -18,7 +20,7 @@ export const AllPost = ({ allPosts, author, setPostId }) => {
     return (
         <>
             <h1>All Yours Post</h1>
-            <div className="content">
+            <div className="posts-content">
                 {allPosts.map((post) => {
                     return (
                         <Post
