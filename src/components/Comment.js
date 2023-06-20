@@ -55,7 +55,7 @@ export const NewComment = (props) => {
                 id="comment_text"
                 onChange={handleInputChange}
             />
-            <button onClick={handleSubmit} type="submit">
+            <button  onClick={handleSubmit} type="submit">
                 Comment
             </button>
         </form>
@@ -74,7 +74,7 @@ export const PostComment = (props) => {
     };
     const format_date = date.toLocaleString("en-US", options);
     return (
-        <div className="comments">
+        <div className="comment">
             <p>{userName}</p>
             <p>{format_date}</p>
             <p>{text}</p>
