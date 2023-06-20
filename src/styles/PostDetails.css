@@ -1,3 +1,4 @@
+/* Post */
 .post-content {
   grid-column: 2;
   display: flex;
@@ -14,9 +15,11 @@
   flex: 1;
 }
 
+
+/* Forms Inputs */
 #post-title,
-#post-text {
-  width: 100%;
+#post-text,form>input {
+  width: 90%;
   border-radius: 10px;
   border: 3px rgb(193, 186, 186) solid;
   padding: 5px;
@@ -28,6 +31,7 @@
   min-height: 15vh;
 }
 
+/* Buttons */
 form>button,
 .buttons>button,
 .comment>button {
@@ -54,7 +58,7 @@ form>button:focus,
   box-shadow: 0 0 0 2px #007bff;
 }
 
-/* NEED CSS FOR THE COMMENTS SECTIONS AND FORM NEW COMMENT */
+/*COMMENTS */
 .all-comments {
   display: flex;
   width: 80%;

@@ -38,7 +38,7 @@ const PostButtons = (props) => {
     const { setEditMode, isEditMode, setDeleteMode, isDeleteMode } = props;
     return (
         <div className="buttons">
-            <button CLA onClick={() => setEditMode(!isEditMode)}>Edit Post</button>
+            <button onClick={() => setEditMode(!isEditMode)}>Edit Post</button>
             <button onClick={() => setDeleteMode(!isDeleteMode)}>Delete</button>
         </div>
     );

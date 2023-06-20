@@ -41,8 +41,9 @@ export const NewComment = (props) => {
     };
     return (
         <form method="post">
-            <label htmlFor="user_name">Name:</label>
+            {/* <label htmlFor="user_name">Name:</label> */}
             <input
+                placeholder="Name"
                 type="text"
                 name="user_name"
                 id="user_name"
