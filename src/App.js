@@ -9,12 +9,11 @@ import { Home } from "./pages/Home";
 import { FormNewPost } from "./components/Forms";
 
 const NavBar = () => {
-    
     return (
         <div className="nav-bar">
             <h1>Blog Editor</h1>
             <NavLink to="/" className="back-home">
-               <button className="home">Home</button>
+                <button className="home">Home</button>
             </NavLink>
         </div>
     );
@@ -47,7 +46,6 @@ function App() {
     return (
         <div className="App">
             <NavBar />
-            <div className="content">
                 <Routes>
                     <Route
                         path="/"
@@ -85,7 +83,6 @@ function App() {
                         }
                     />
                 </Routes>
-            </div>
         </div>
     );
 }

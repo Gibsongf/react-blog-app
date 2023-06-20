@@ -64,7 +64,15 @@ export const NewComment = (props) => {
 export const PostComment = (props) => {
     const { userName, text, timestamp, postID, commentID } = props;
     const [isDeleteMode, setDeleteMode] = useState(false);
-    const format_date = new Date().toUTCString(timestamp).replace("GMT", "");
+    const date = new Date(timestamp);
+    const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+    };
+    const format_date = date.toLocaleString("en-US", options);
     return (
         <div className="comments">
             <p>{userName}</p>

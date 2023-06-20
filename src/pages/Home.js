@@ -22,7 +22,7 @@ export const Home = ({ savePostId, data, wasUpdated, setWasUpdated }) => {
 
     
     return (
-        <>
+        <div className="content">
             <AuthorInfo
                 fname={data.author.first_name}
                 lname={data.author.last_name}
@@ -38,6 +38,6 @@ export const Home = ({ savePostId, data, wasUpdated, setWasUpdated }) => {
                 author={data.author.first_name}
                 setPostId={savePostId}
             />
-        </>
+        </div>
     );
 };

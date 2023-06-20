@@ -9,37 +9,46 @@ export const PostEditForm = (props) => {
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+    const changeBooleanName = (e) => {
+        if(e === false){
+            return 'No'
+        } else {
+            return 'Yes'
+        }
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
         updatePost(props._id, formData);
         props.setEditMode(false);
         setHomeUpdate(!homeUpdate);
     };
-    const publishedValue = () => {
-        const reverse = !published;
-        return reverse.toString();
-    };
+    // const publishedValue = () => {
+    //     const reverse = !published;
+    //     return reverse.toString();
+    // };
     return (
-        <form method="POST" action="" className="edit-form">
+        <form method="POST" action="" className="edit-post-form">
             <div className="title">
-                <label htmlFor="title">Title:</label>
+                {/* <label htmlFor="title">Title:</label> */}
                 <input
                     type="text"
-                    id="title"
+                    id="post-title"
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
                 />
             </div>
             <div className="post-text">
-                <label htmlFor="post-text">Text:</label>
-                <input
+                {/* <label htmlFor="post-text">Text:</label> */}
+                <textarea
                     type="text"
-                    id="post-text"
                     name="text"
+                    id="post-text"
+                    minLength="10"
                     value={formData.text}
                     onChange={handleInputChange}
-                />
+                    required={true}
+                ></textarea>
             </div>
             {/* need to pass the published value as default */}
             <div className="published">
@@ -49,14 +58,14 @@ export const PostEditForm = (props) => {
                     id="published"
                     onChange={handleInputChange}
                 >
-                    <option value={published}>{published.toString()}</option>
-                    <option value={!published}>{publishedValue()}</option>
+                    <option value={published}>{changeBooleanName(published)}</option>
+                    <option value={!published}>{changeBooleanName(!published)}</option>
                 </select>
             </div>
-            <button onClick={handleSubmit} type="submit">
+            <button className="confirm-edit" onClick={handleSubmit} type="submit">
                 Confirm Edit
             </button>
-            <button onClick={() => props.setEditMode(false)} type="button">
+            <button className="cancel-edit" onClick={() => props.setEditMode(false)} type="button">
                 Cancel
             </button>
         </form>
@@ -85,31 +94,31 @@ export const FormNewPost = (props) => {
                 name="title"
                 id="title"
                 onChange={handleInputChange}
-                required='true'
+                required={true}
             />
             <textarea
                 placeholder="Write your new post"
                 type="text"
                 name="text"
                 id="text"
-                minLength='10'
+                minLength="10"
                 onChange={handleInputChange}
-                required='true'
+                required={true}
             ></textarea>
             {/* /> */}
             <div className="published">
-            <label htmlFor="published">Published: </label>
-            <select
-                name="published"
-                id="published"
-                onChange={handleInputChange}
-            >
-                <option value={false}>No</option>
-                <option value={true}>Yes</option>
-            </select>
+                <label htmlFor="published">Published: </label>
+                <select
+                    name="published"
+                    id="published"
+                    onChange={handleInputChange}
+                >
+                    <option value={false}>No</option>
+                    <option value={true}>Yes</option>
+                </select>
             </div>
-            <button onClick={handleSubmit} type="submit">
-                Post
+            <button className="submit-new-post" onClick={handleSubmit} type="submit">
+                Save Post
             </button>
         </form>
     );

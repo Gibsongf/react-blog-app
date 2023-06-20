@@ -2,7 +2,14 @@ import { NavLink } from "react-router-dom";
 const Post = ({ title, timestamp, text, setPostId, id }) => {
     // NEED TO FORMAT THE POST DATE THIS ONE IS RETURNING THE SAME THING
     const date = new Date(timestamp);
-    const format_date = date.toUTCString().replace("GMT", "");
+    const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+    };
+    const format_date = date.toLocaleString("en-US", options);
     return (
         <div className="post">
             <NavLink to={`post/${id}`} onClick={setPostId}>
@@ -10,7 +17,7 @@ const Post = ({ title, timestamp, text, setPostId, id }) => {
                     {title}
                 </h2>
             </NavLink>
-            <h4>{format_date}</h4>
+            <h5>{format_date}</h5>
             <p>{text}</p>
         </div>
     );

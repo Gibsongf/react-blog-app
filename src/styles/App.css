@@ -1,84 +1,98 @@
 body {
   padding: 0;
-  margin:0;
+  margin: 0;
   background-color: rgb(44, 44, 44);
 
   color: white;
 }
 
 .App {
-  display: flex;
-  /* text-align: center; */
-  /* padding: 50px; */
+  margin-bottom: 25px;
+  display: grid;
+  grid-template-columns: 25vw 50vw 25vw;
+  gap: 25px;
 }
 
-.nav-bar {
-  border: black 2px solid;
-  background-color: rgb(30, 30, 30);
-  padding: 0px 25px;
-  min-height: 100vh;
-}
-.nav-bar h1 {
-  font-size: 3rem;
-}
-.author-details {
-  text-align: center;
-}
-.new-post  {
-  border: rgb(90, 80, 234) 2px solid;
+.content {
+  grid-column: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
 }
 
-#text{
-  width: 50%;
-  height: 10vh;
-  border: 5px rgb(169, 168, 168) solid;
-  border-radius: 10px;
+.nav-bar {
+  grid-column: 1/4;
+  text-align: center;
+  background-color: rgb(30, 30, 30);
+  min-width: 100vh;
 }
-input:invalid{
+
+.nav-bar h1 {
+  font-size: 3rem;
+}
+
+.author-details {
+  text-align: center;
+}
+
+.new-post {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 10px;
+  grid-template-columns: minmax(40vw, 1fr);
+}
+
+
+
+input:invalid {
   border-color: red;
 }
-#title{
+
+#title,
+#text {
   border-radius: 10px;
-  border: 5px rgb(169, 168, 168) solid;
-  width: 50%;
-  height: 50%;
+  border: 3px rgb(193, 186, 186) solid;
+  padding: 10px;
+  width: 100%;
 }
 
-form > button {
+#text {
+  height: 10vh;
+}
+
+
+.submit-new-post {
   background-color: #007bff;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   font-size: 22px;
-  cursor: pointer;
 }
 
-form > button:hover {
+.submit-new-post:hover {
   background-color: #0056b3;
 }
 
-form > button:focus {
+.submit-new-post:focus {
   outline: none;
   box-shadow: 0 0 0 2px #007bff;
 }
 
 .posts-content {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 25px;
+
 }
 
 .post {
-  width: 300px;
   background-color: #f5f5f5;
   padding: 20px;
   border-radius: 8px;
   color: black;
+  text-align: center;
 }
 
 .post a {
@@ -87,18 +101,16 @@ form > button:focus {
 }
 
 .post h2 {
-  font-size: 20px;
+  /* font-size: 20px; */
   margin-bottom: 10px;
 }
 
-.post h4 {
-  font-size: 14px;
+.post h5 {
   color: #666;
   margin-bottom: 8px;
 }
 
-.post p {
+/* .post p {
   font-size: 16px;
   line-height: 1.5;
-}
-
+} */
