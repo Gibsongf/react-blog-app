@@ -1,62 +1,46 @@
 import { useState } from "react";
-import { deleteComment, newComment } from "../Api";
+import { newComment } from "../Api";
+import { ConfirmCommentDeletion, newContentValidator } from "./Forms";
 
-const ConfirmDeletion = (props) => {
-    const { isDeleteMode, setDeleteMode, postID, commentID } = props;
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        deleteComment(postID, commentID);
-        setDeleteMode(!isDeleteMode);
-        props.setWasUpdated(!props.wasUpdated);
-    };
-    return (
-        <>
-            <h5>Do you want to delete this Comment? </h5>
-            <form action="DELETE">
-                <button onClick={handleSubmit} type="submit">
-                    Yes
-                </button>
-                <button
-                    onClick={() => setDeleteMode(!isDeleteMode)}
-                    type="button"
-                >
-                    No
-                </button>
-            </form>
-        </>
-    );
-};
 export const NewComment = (props) => {
     const initialState = { user_name: "", comment_text: "" };
     const [formData, setFormData] = useState(initialState);
+    const [validData, setValidData] = useState();
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        setValidData(newContentValidator(e));
     };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        newComment(props.postID, formData);
-        // .reset()
-        props.setWasUpdated(!props.wasUpdated);
+        if (validData) {
+            newComment(props.postID, formData);
+            props.setWasUpdated(!props.wasUpdated);
+        }
     };
     return (
-        <form method="post">
+        <form method="post" className="new-comment-form">
             {/* <label htmlFor="user_name">Name:</label> */}
             <input
-                placeholder="Name"
+                placeholder="Name (min characters: 4)"
                 type="text"
                 name="user_name"
                 id="user_name"
                 onChange={handleInputChange}
+                required
+                // minLength={4}
             />
             <input
-                placeholder="Write a comment"
+                placeholder="Write a comment (min characters: 4)"
                 type="text"
                 name="comment_text"
                 id="comment_text"
+                required
+                // minLength={4}
                 onChange={handleInputChange}
             />
-            <button  onClick={handleSubmit} type="submit">
+            <button onClick={handleSubmit} type="submit">
                 Comment
             </button>
         </form>
@@ -76,9 +60,9 @@ export const PostComment = (props) => {
     const format_date = date.toLocaleString("en-US", options);
     return (
         <div className="comment">
-            <p>{userName}</p>
-            <p>{format_date}</p>
-            <p>{text}</p>
+            <p className="comment-username">{userName}</p>
+            <p className="comment-timestamp">{format_date}</p>
+            <p className="comment-text">{text}</p>
 
             {!isDeleteMode ? (
                 <button
@@ -88,7 +72,7 @@ export const PostComment = (props) => {
                     Delete
                 </button>
             ) : (
-                <ConfirmDeletion
+                <ConfirmCommentDeletion
                     setDeleteMode={setDeleteMode}
                     isDeleteMode={isDeleteMode}
                     postID={postID}

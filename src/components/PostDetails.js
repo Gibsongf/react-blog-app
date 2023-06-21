@@ -1,38 +1,10 @@
 import { useEffect, useState } from "react";
 import { getPostDetails, deletePost } from "../Api";
 import { NavLink } from "react-router-dom";
-import { PostEditForm } from "./Forms";
+import { PostEditForm, ConfirmPostDeletion } from "./Forms";
 import { PostComment, NewComment } from "./Comment";
 
 import "../styles/PostDetails.css";
-
-const ConfirmPostDeletion = (props) => {
-    const { isDeleteMode, setDeleteMode, dbID } = props;
-    const { setHomeUpdate, homeUpdate } = props;
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setHomeUpdate(!homeUpdate);
-        deletePost(dbID);
-        // setDeleteMode(!isDeleteMode);
-        document.querySelector(".home").click();
-    };
-    return (
-        <>
-            <h3>Do you want to delete this Post? </h3>
-            <form action="DELETE">
-                <button onClick={handleSubmit} type="submit">
-                    Yes
-                </button>
-                <button
-                    onClick={() => setDeleteMode(!isDeleteMode)}
-                    type="button"
-                >
-                    No
-                </button>
-            </form>
-        </>
-    );
-};
 
 const PostButtons = (props) => {
     const { setEditMode, isEditMode, setDeleteMode, isDeleteMode } = props;

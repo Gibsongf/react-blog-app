@@ -28,7 +28,9 @@ async function setupFetch(url, reqMethod = "get", body) {
     if (!localStorage["token"]) {
         const data = await apiLogin();
         localStorage.setItem("token", data.token);
+        console.log(data);
     }
+    
     const reqConfig = {
         method: reqMethod,
         headers: {
@@ -46,9 +48,9 @@ async function setupFetch(url, reqMethod = "get", body) {
             const data = await response.json();
             return data;
         }
-        if(response.status === 401){
-            localStorage.removeItem('token')
-            return 'Old token'
+        if (response.status === 401) {
+            localStorage.removeItem("token");
+            return "Old token";
         }
     } catch (err) {
         throw Error(err);

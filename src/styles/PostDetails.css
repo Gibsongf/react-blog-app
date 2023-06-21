@@ -3,7 +3,7 @@
   grid-column: 2;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 }
 
 .post-details {
@@ -12,7 +12,7 @@
   border-radius: 8px;
   color: black;
   text-align: center;
-  flex: 1;
+  /* flex: 1; */
 }
 
 
@@ -73,4 +73,20 @@ form>button:focus,
   border-radius: 10px;
   padding: 30px;
   text-align: center;
+}
+.comment-username{
+  font-weight: bold;
+}
+.comment-timestamp {
+  font-size: 16px;
+
+}
+.new-comment-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.invalid:focus {
+  outline: red;
 }

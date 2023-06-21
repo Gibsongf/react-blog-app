@@ -45,9 +45,7 @@ body {
 
 
 
-input:invalid {
-  border-color: red;
-}
+
 
 #title,
 #text {
@@ -110,7 +108,6 @@ input:invalid {
   margin-bottom: 8px;
 }
 
-/* .post p {
-  font-size: 16px;
-  line-height: 1.5;
-} */
+.invalid:focus {
+  outline: red;
+}
