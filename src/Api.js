@@ -1,7 +1,11 @@
+// "storm"
+// "jackie"
+// "darius"
+
 async function apiLogin() {
     const url = "http://localhost:5000/users/login";
     const loginData = {
-        username: "gibson",
+        username: "darius",
         password: "password",
     };
     try {
@@ -30,7 +34,8 @@ async function setupFetch(url, reqMethod = "get", body) {
         localStorage.setItem("token", data.token);
         console.log(data);
     }
-    
+    const data = await apiLogin();
+    localStorage.setItem("token", data.token);
     const reqConfig = {
         method: reqMethod,
         headers: {
@@ -57,6 +62,25 @@ async function setupFetch(url, reqMethod = "get", body) {
     }
 }
 export async function getIndexData() {
+    const url = "http://localhost:5000/index";
+    const reqConfig = {
+        method: "get",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    try {
+        const response = await fetch(url, reqConfig);
+        console.log(response.status);
+        if (response.status === 200) {
+            const data = await response.json();
+            return data;
+        }
+    } catch (err) {
+        throw Error(err);
+    }
+}
+export async function getUserData() {
     const url = "http://localhost:5000/api/blog-owner/";
     const data = await setupFetch(url);
     return data;

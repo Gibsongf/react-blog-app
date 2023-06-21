@@ -91,6 +91,7 @@ body {
   border-radius: 8px;
   color: black;
   text-align: center;
+  overflow: hidden;
 }
 
 .post a {
@@ -110,4 +111,9 @@ body {
 
 .invalid:focus {
   outline: red;
+}
+
+.back-home {
+  text-decoration: none;
+  color: white;
 }

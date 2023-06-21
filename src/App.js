@@ -1,19 +1,18 @@
 import "./styles/App.css";
-import { getIndexData } from "./Api";
+import { getUserData } from "./Api";
 import { useEffect, useState } from "react";
-// import uniqid from "uniqid";
 // import { AllPost } from "./components/Posts";
 import { Routes, Route, NavLink } from "react-router-dom";
 import { PostDetails } from "./components/PostDetails";
-import { Home } from "./pages/Home";
+import { Home } from "./pages/Edit-Home";
 import { FormNewPost } from "./components/Forms";
+import { Index } from "./pages";
 
 const NavBar = () => {
     return (
         <div className="nav-bar">
-            <h1>Blog Editor</h1>
             <NavLink to="/" className="back-home">
-                <button className="home">Home</button>
+                <h1>Blog Editor</h1>
             </NavLink>
         </div>
     );
@@ -33,7 +32,15 @@ function App() {
         const fetchData = async () => {
             console.log("Fetching data");
             try {
-                const result = await getIndexData();
+                const result = await getUserData();
+                const published = result.posts.filter((post) =>
+                    post.published ? post : ""
+                );
+                result.published = published;
+                const unpublished = result.posts.filter((post) =>
+                    !post.published ? post : ""
+                );
+                result.unpublished = unpublished;
                 setData(result);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -46,43 +53,44 @@ function App() {
     return (
         <div className="App">
             <NavBar />
-                <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <Home
-                                savePostId={savePostId}
-                                data={data}
-                                wasUpdated={wasUpdated}
-                                setWasUpdated={setWasUpdated}
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <Home
+                            savePostId={savePostId}
+                            data={data}
+                            wasUpdated={wasUpdated}
+                            setWasUpdated={setWasUpdated}
+                        />
+                    }
+                />
+                <Route
+                    path="/post/:id"
+                    element={
+                        data ? (
+                            <PostDetails
+                                postId={postId}
+                                author={data.author}
+                                homeUpdate={wasUpdated}
+                                setHomeUpdate={setWasUpdated}
                             />
-                        }
-                    />
-                    <Route
-                        path="/post/:id"
-                        element={
-                            data ? (
-                                <PostDetails
-                                    postId={postId}
-                                    author={data.author}
-                                    homeUpdate={wasUpdated}
-                                    setHomeUpdate={setWasUpdated}
-                                />
-                            ) : (
-                                ""
-                            )
-                        }
-                    />
-                    <Route
-                        path="/submit"
-                        element={
-                            <FormNewPost
-                                wasUpdated={wasUpdated}
-                                setWasUpdated={setWasUpdated}
-                            />
-                        }
-                    />
-                </Routes>
+                        ) : (
+                            ""
+                        )
+                    }
+                />
+                <Route
+                    path="/submit"
+                    element={
+                        <FormNewPost
+                            wasUpdated={wasUpdated}
+                            setWasUpdated={setWasUpdated}
+                        />
+                    }
+                />
+                <Route path="/index" element={<Index />} />
+            </Routes>
         </div>
     );
 }

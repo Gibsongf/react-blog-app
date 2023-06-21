@@ -106,12 +106,12 @@ export const FormNewPost = (props) => {
         setValidData(newContentValidator(e));
     };
     // some func to check if the input has the min len and change border color if not  to inform user
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         if (validData) {
-            newPost(formData);
-            props.setWasUpdated(!props.wasUpdated);
+            await newPost(formData);
             e.target.parentElement.reset();
+            props.setWasUpdated(!props.wasUpdated);
         }
     };
     return (
@@ -188,7 +188,7 @@ export const ConfirmPostDeletion = (props) => {
         e.preventDefault();
         setHomeUpdate(!homeUpdate);
         deletePost(dbID);
-        document.querySelector(".home").click();
+        document.querySelector(".back-home").click();
     };
     return (
         <>

@@ -3,7 +3,6 @@ import { getPostDetails, deletePost } from "../Api";
 import { NavLink } from "react-router-dom";
 import { PostEditForm, ConfirmPostDeletion } from "./Forms";
 import { PostComment, NewComment } from "./Comment";
-
 import "../styles/PostDetails.css";
 
 const PostButtons = (props) => {

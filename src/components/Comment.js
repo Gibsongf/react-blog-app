@@ -12,10 +12,10 @@ export const NewComment = (props) => {
         setValidData(newContentValidator(e));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validData) {
-            newComment(props.postID, formData);
+            await newComment(props.postID, formData);
             props.setWasUpdated(!props.wasUpdated);
         }
     };

@@ -27,6 +27,7 @@ export const AllPost = ({ allPosts, author, setPostId }) => {
     return (
         <>
             <h1>All Yours Post</h1>
+            
             <div className="posts-content">
                 {allPosts.map((post) => {
                     return (
