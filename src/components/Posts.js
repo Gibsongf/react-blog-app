@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 const Post = ({ title, timestamp, text, setPostId, id }) => {
-    // NEED TO FORMAT THE POST DATE THIS ONE IS RETURNING THE SAME THING
     const date = new Date(timestamp);
     const options = {
         year: "numeric",

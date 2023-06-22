@@ -1,16 +1,14 @@
 import "./styles/App.css";
 import { getUserData } from "./Api";
 import { useEffect, useState } from "react";
-// import { AllPost } from "./components/Posts";
 import { Routes, Route, NavLink } from "react-router-dom";
-import { PostDetails } from "./components/PostDetails";
-import { Home } from "./pages/Edit-Home";
+import { PostDetails } from "./pages/PostDetails";
+import { Home } from "./pages/Home";
 import { FormNewPost } from "./components/Forms";
-import { Index } from "./pages";
 
-const NavBar = () => {
+const Header = () => {
     return (
-        <div className="nav-bar">
+        <div className="header">
             <NavLink to="/" className="back-home">
                 <h1>Blog Editor</h1>
             </NavLink>
@@ -18,8 +16,6 @@ const NavBar = () => {
     );
 };
 
-// page with just the users that will direct for their post pages
-//
 function App() {
     const [data, setData] = useState(null);
     const [postId, setPostId] = useState();
@@ -52,7 +48,7 @@ function App() {
 
     return (
         <div className="App">
-            <NavBar />
+            <Header />
             <Routes>
                 <Route
                     path="/"
@@ -68,16 +64,12 @@ function App() {
                 <Route
                     path="/post/:id"
                     element={
-                        data ? (
-                            <PostDetails
-                                postId={postId}
-                                author={data.author}
-                                homeUpdate={wasUpdated}
-                                setHomeUpdate={setWasUpdated}
-                            />
-                        ) : (
-                            ""
-                        )
+                        <PostDetails
+                            postId={postId}
+                            author={data.author}
+                            homeUpdate={wasUpdated}
+                            setHomeUpdate={setWasUpdated}
+                        />
                     }
                 />
                 <Route
@@ -89,7 +81,6 @@ function App() {
                         />
                     }
                 />
-                <Route path="/index" element={<Index />} />
             </Routes>
         </div>
     );

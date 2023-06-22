@@ -1,12 +1,10 @@
-// "storm"
-// "jackie"
-// "darius"
+require("dotenv").config();
 
 async function apiLogin() {
     const url = "http://localhost:5000/users/login";
     const loginData = {
         username: "darius",
-        password: "password",
+        password: process.env.password,
     };
     try {
         const response = await fetch(url, {
@@ -34,8 +32,7 @@ async function setupFetch(url, reqMethod = "get", body) {
         localStorage.setItem("token", data.token);
         console.log(data);
     }
-    const data = await apiLogin();
-    localStorage.setItem("token", data.token);
+
     const reqConfig = {
         method: reqMethod,
         headers: {
@@ -48,7 +45,6 @@ async function setupFetch(url, reqMethod = "get", body) {
     }
     try {
         const response = await fetch(url, reqConfig);
-        console.log(response.status);
         if (response.status === 200) {
             const data = await response.json();
             return data;
@@ -71,7 +67,6 @@ export async function getIndexData() {
     };
     try {
         const response = await fetch(url, reqConfig);
-        console.log(response.status);
         if (response.status === 200) {
             const data = await response.json();
             return data;
@@ -89,13 +84,11 @@ export async function getUserData() {
 export async function newPost(formData) {
     const url = `http://localhost:5000/api/post/`;
     const data = await setupFetch(url, "post", formData);
-    // console.log(data)
     return data;
 }
 
 export async function updatePost(id, formData) {
     const url = `http://localhost:5000/api/post/${id}/edit`;
-    // console.log(id, formData);
     const data = await setupFetch(url, "put", formData);
     return data;
 }
@@ -108,19 +101,16 @@ export async function getPostDetails(id) {
 export async function deletePost(id) {
     const url = `http://localhost:5000/api/post/${id}`;
     const data = await setupFetch(url, "delete");
-    // console.log(data);
     return data;
 }
 export async function deleteComment(postID, commentID) {
     const url = `http://localhost:5000/api/post/${postID}/comment/${commentID}`;
     const data = await setupFetch(url, "delete");
-    // console.log(data)
     return data;
 }
 
 export async function newComment(postID, formData) {
     const url = `http://localhost:5000/api/post/${postID}/comment`;
     const data = await setupFetch(url, "post", formData);
-    // console.log(data)
     return data;
 }

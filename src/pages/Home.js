@@ -1,17 +1,15 @@
 import "../styles/App.css";
 import { AllPost } from "../components/Posts";
 import { FormNewPost } from "../components/Forms";
-import { NavLink } from "react-router-dom";
 
 const AuthorInfo = (props) => {
-    const { fname, lname, description } = props;
+    const { fname, lname } = props;
 
     return (
         <div className="author-details">
             <h1>
                 Welcome {fname} {lname}{" "}
             </h1>
-            {/* <h1>{description.length > 0 ? description : ""}</h1> */}
         </div>
     );
 };
@@ -23,8 +21,6 @@ export const Home = ({ savePostId, data, wasUpdated, setWasUpdated }) => {
     }
     return (
         <div className="content">
-            
-
             <AuthorInfo
                 fname={data.author.first_name}
                 lname={data.author.last_name}
@@ -34,7 +30,7 @@ export const Home = ({ savePostId, data, wasUpdated, setWasUpdated }) => {
                 wasUpdated={wasUpdated}
                 setWasUpdated={setWasUpdated}
             />
-            
+
             <AllPost
                 allPosts={data.posts}
                 author={data.author.first_name}

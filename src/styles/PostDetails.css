@@ -12,13 +12,13 @@
   border-radius: 8px;
   color: black;
   text-align: center;
-  /* flex: 1; */
 }
 
 
 /* Forms Inputs */
 #post-title,
-#post-text,form>input {
+#post-text,
+form>input {
   width: 90%;
   border-radius: 10px;
   border: 3px rgb(193, 186, 186) solid;
@@ -74,14 +74,17 @@ form>button:focus,
   padding: 30px;
   text-align: center;
 }
-.comment-username{
+
+.comment-username {
   font-weight: bold;
 }
+
 .comment-timestamp {
   font-size: 16px;
 
 }
-.new-comment-form{
+
+.new-comment-form {
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -17,11 +17,11 @@ export const NewComment = (props) => {
         if (validData) {
             await newComment(props.postID, formData);
             props.setWasUpdated(!props.wasUpdated);
+            e.target.parentElement.reset();
         }
     };
     return (
         <form method="post" className="new-comment-form">
-            {/* <label htmlFor="user_name">Name:</label> */}
             <input
                 placeholder="Name (min characters: 4)"
                 type="text"
@@ -29,7 +29,6 @@ export const NewComment = (props) => {
                 id="user_name"
                 onChange={handleInputChange}
                 required
-                // minLength={4}
             />
             <input
                 placeholder="Write a comment (min characters: 4)"
@@ -37,7 +36,6 @@ export const NewComment = (props) => {
                 name="comment_text"
                 id="comment_text"
                 required
-                // minLength={4}
                 onChange={handleInputChange}
             />
             <button onClick={handleSubmit} type="submit">

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { getPostDetails, deletePost } from "../Api";
-import { NavLink } from "react-router-dom";
-import { PostEditForm, ConfirmPostDeletion } from "./Forms";
-import { PostComment, NewComment } from "./Comment";
+import { getPostDetails } from "../Api";
+import { PostEditForm, ConfirmPostDeletion } from "../components/Forms";
+import { PostComment, NewComment } from "../components/Comment";
 import "../styles/PostDetails.css";
 
 const PostButtons = (props) => {

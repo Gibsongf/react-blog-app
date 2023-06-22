@@ -20,15 +20,15 @@ body {
   align-items: center;
 }
 
-.nav-bar {
+.header {
   grid-column: 1/4;
   text-align: center;
   background-color: rgb(30, 30, 30);
   min-width: 100vh;
 }
 
-.nav-bar h1 {
-  font-size: 3rem;
+.header h1 {
+  font-size: 2.5rem;
 }
 
 .author-details {
@@ -100,7 +100,6 @@ body {
 }
 
 .post h2 {
-  /* font-size: 20px; */
   margin-bottom: 10px;
 }
 

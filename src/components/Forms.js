@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { newPost, updatePost, deleteComment, deletePost } from "../Api";
-// import "../styles/UniquePost.css";
 export const newContentValidator = (e) => {
     const minLen = { text: 10, title: 4, user_name: 4, comment_text: 4 };
     const el = e.target;
@@ -42,7 +41,6 @@ export const PostEditForm = (props) => {
     return (
         <form method="POST" action="" className="edit-post-form">
             <div className="title">
-                {/* <label htmlFor="title">Title:</label> */}
                 <input
                     type="text"
                     id="post-title"
@@ -53,7 +51,6 @@ export const PostEditForm = (props) => {
                 />
             </div>
             <div className="post-text">
-                {/* <label htmlFor="post-text">Text:</label> */}
                 <textarea
                     type="text"
                     name="text"
@@ -63,7 +60,6 @@ export const PostEditForm = (props) => {
                     required
                 ></textarea>
             </div>
-            {/* need to pass the published value as default */}
             <div className="published">
                 <label htmlFor="published">Published:</label>
                 <select
@@ -105,8 +101,7 @@ export const FormNewPost = (props) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         setValidData(newContentValidator(e));
     };
-    // some func to check if the input has the min len and change border color if not  to inform user
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validData) {
             await newPost(formData);
@@ -116,7 +111,6 @@ export const FormNewPost = (props) => {
     };
     return (
         <form method="post" className="new-post">
-            {/* <label htmlFor="title">Title:</label> */}
             <input
                 placeholder="Title (min characters: 3)"
                 type="text"
@@ -134,7 +128,6 @@ export const FormNewPost = (props) => {
                 onChange={handleInputChange}
                 required
             ></textarea>
-            {/* /> */}
             <div className="published">
                 <label htmlFor="published">Published: </label>
                 <select
@@ -158,9 +151,9 @@ export const FormNewPost = (props) => {
 };
 export const ConfirmCommentDeletion = (props) => {
     const { isDeleteMode, setDeleteMode, postID, commentID } = props;
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        deleteComment(postID, commentID);
+        await deleteComment(postID, commentID);
         setDeleteMode(!isDeleteMode);
         props.setWasUpdated(!props.wasUpdated);
     };
@@ -184,10 +177,10 @@ export const ConfirmCommentDeletion = (props) => {
 export const ConfirmPostDeletion = (props) => {
     const { isDeleteMode, setDeleteMode, dbID } = props;
     const { setHomeUpdate, homeUpdate } = props;
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        await deletePost(dbID);
         setHomeUpdate(!homeUpdate);
-        deletePost(dbID);
         document.querySelector(".back-home").click();
     };
     return (
