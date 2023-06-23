@@ -64,12 +64,16 @@ function App() {
                 <Route
                     path="/post/:id"
                     element={
-                        <PostDetails
-                            postId={postId}
-                            author={data.author}
-                            homeUpdate={wasUpdated}
-                            setHomeUpdate={setWasUpdated}
-                        />
+                        data ? (
+                            <PostDetails
+                                postId={postId}
+                                author={data.author}
+                                homeUpdate={wasUpdated}
+                                setHomeUpdate={setWasUpdated}
+                            />
+                        ) : (
+                            ""
+                        )
                     }
                 />
                 <Route

@@ -1,10 +1,8 @@
-require("dotenv").config();
-
 async function apiLogin() {
     const url = "http://localhost:5000/users/login";
     const loginData = {
         username: "darius",
-        password: process.env.password,
+        password: "password",
     };
     try {
         const response = await fetch(url, {
@@ -30,9 +28,7 @@ async function setupFetch(url, reqMethod = "get", body) {
     if (!localStorage["token"]) {
         const data = await apiLogin();
         localStorage.setItem("token", data.token);
-        console.log(data);
     }
-
     const reqConfig = {
         method: reqMethod,
         headers: {
