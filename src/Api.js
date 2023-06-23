@@ -1,7 +1,7 @@
 async function apiLogin() {
     const url = "http://localhost:5000/users/login";
     const loginData = {
-        username: "darius",
+        username: "username",
         password: "password",
     };
     try {
@@ -72,6 +72,8 @@ export async function getIndexData() {
     }
 }
 export async function getUserData() {
+    console.log(process.env);
+
     const url = "http://localhost:5000/api/blog-owner/";
     const data = await setupFetch(url);
     return data;
