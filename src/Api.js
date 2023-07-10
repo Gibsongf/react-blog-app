@@ -1,8 +1,8 @@
 async function apiLogin() {
     const url = "http://localhost:5000/users/login";
     const loginData = {
-        username: "username",
-        password: "password",
+        username: "Marta_Gutmann",
+        password: "YKrQ0xI713LtZs2",
     };
     try {
         const response = await fetch(url, {
@@ -29,6 +29,8 @@ async function setupFetch(url, reqMethod = "get", body) {
         const data = await apiLogin();
         localStorage.setItem("token", data.token);
     }
+    // const data = await apiLogin();
+    // localStorage.setItem("token", data.token);
     const reqConfig = {
         method: reqMethod,
         headers: {
@@ -72,7 +74,7 @@ export async function getIndexData() {
     }
 }
 export async function getUserData() {
-    console.log(process.env);
+    // console.log(process.env);
 
     const url = "http://localhost:5000/api/blog-owner/";
     const data = await setupFetch(url);
@@ -82,6 +84,7 @@ export async function getUserData() {
 export async function newPost(formData) {
     const url = `http://localhost:5000/api/post/`;
     const data = await setupFetch(url, "post", formData);
+    console.log(data);
     return data;
 }
 

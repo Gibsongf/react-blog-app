@@ -26,7 +26,7 @@ function App() {
     };
     useEffect(() => {
         const fetchData = async () => {
-            console.log("Fetching data");
+            // console.log("Fetching data");
             try {
                 const result = await getUserData();
                 const published = result.posts.filter((post) =>
