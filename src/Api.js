@@ -84,6 +84,7 @@ export async function getUserData() {
 export async function newPost(formData) {
     const url = `http://localhost:5000/api/post/`;
     const data = await setupFetch(url, "post", formData);
+    console.log(data);
     return data;
 }
 

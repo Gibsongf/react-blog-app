@@ -1,20 +1,22 @@
 import { useState } from "react";
 import { newComment } from "../Api";
-import { ConfirmCommentDeletion, newContentValidator } from "./Forms";
+import { ConfirmCommentDeletion } from "./Forms";
+import { newContentValidator } from "./FormValidation";
 
 export const NewComment = (props) => {
     const initialState = { user_name: "", comment_text: "" };
     const [formData, setFormData] = useState(initialState);
-    const [validData, setValidData] = useState();
+    // const [validData, setValidData] = useState();
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-        setValidData(newContentValidator(e));
+        newContentValidator(e);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validData) {
+        const isValidData = newContentValidator(e.target.parentElement);
+        if (isValidData) {
             await newComment(props.postID, formData);
             props.setWasUpdated(!props.wasUpdated);
             e.target.parentElement.reset();
