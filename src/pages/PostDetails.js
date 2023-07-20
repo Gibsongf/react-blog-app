@@ -5,11 +5,11 @@ import { PostComment, NewComment } from "../components/Comment";
 import "../styles/PostDetails.css";
 
 const PostButtons = (props) => {
-    const { setEditMode, isEditMode, setDeleteMode, isDeleteMode } = props;
+    const { setEditMode, setDeleteMode } = props;
     return (
         <div className="buttons">
-            <button onClick={() => setEditMode(!isEditMode)}>Edit Post</button>
-            <button onClick={() => setDeleteMode(!isDeleteMode)}>Delete</button>
+            <button onClick={setEditMode}>Edit Post</button>
+            <button onClick={setDeleteMode}>Delete</button>
         </div>
     );
 };
@@ -27,17 +27,22 @@ const PostInformation = ({ title, author, text, timestamp }) => {
     );
 };
 export const PostDetails = (props) => {
-    const { author, postId } = props;
+    const { postId } = props;
     const [isEditMode, setEditMode] = useState(false);
     const [isDeleteMode, setDeleteMode] = useState(false);
     const [currentPost, setCurrentPost] = useState(null);
-    const [postComments, setPostComments] = useState(null);
     const [wasUpdated, setWasUpdated] = useState(false);
 
+    const changeEditMode = () => {
+        setEditMode(!isEditMode);
+    };
+    const changeDeleteMode = () => {
+        setDeleteMode(!isDeleteMode);
+    };
     const RenderComments = () => {
         return (
             <div className="all-comments">
-                {postComments.map((comment) => {
+                {currentPost.comment.map((comment) => {
                     return (
                         <PostComment
                             key={comment._id}
@@ -70,8 +75,7 @@ export const PostDetails = (props) => {
                 const format_date = date.toLocaleString("en-US", options);
 
                 result.post.timestamp = format_date;
-                setCurrentPost(result.post);
-                setPostComments(result.comment);
+                setCurrentPost(result);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -89,39 +93,31 @@ export const PostDetails = (props) => {
                 {!isEditMode ? (
                     <>
                         <PostInformation
-                            title={currentPost.title}
-                            author={author}
-                            text={currentPost.text}
-                            timestamp={currentPost.timestamp}
+                            title={currentPost.post.title}
+                            author={currentPost.author}
+                            text={currentPost.post.text}
+                            timestamp={currentPost.post.timestamp}
                         />
                         {!isDeleteMode ? (
                             <PostButtons
-                                isEditMode={isEditMode}
-                                isDeleteMode={isDeleteMode}
-                                setDeleteMode={setDeleteMode}
-                                setEditMode={setEditMode}
+                                setDeleteMode={changeDeleteMode}
+                                setEditMode={changeEditMode}
                             />
                         ) : (
                             <ConfirmPostDeletion
-                                setDeleteMode={setDeleteMode}
-                                isDeleteMode={isDeleteMode}
+                                setDeleteMode={changeDeleteMode}
                                 dbID={postId}
-                                homeUpdate={props.homeUpdate}
-                                setHomeUpdate={props.setHomeUpdate}
                             />
                         )}
                     </>
                 ) : (
                     <PostEditForm
-                        {...currentPost}
-                        editMode={isEditMode}
-                        setEditMode={setEditMode}
-                        homeUpdate={props.homeUpdate}
-                        setHomeUpdate={props.setHomeUpdate}
+                        {...currentPost.post}
+                        setEditMode={changeEditMode}
                     />
                 )}
             </div>
-            {postComments.length > 0 ? <RenderComments /> : ""}
+            {currentPost.comment.length > 0 ? <RenderComments /> : ""}
             <NewComment
                 postID={postId}
                 wasUpdated={wasUpdated}

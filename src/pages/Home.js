@@ -1,6 +1,8 @@
 import "../styles/App.css";
 import { AllPost } from "../components/Posts";
 import { FormNewPost } from "../components/Forms";
+import { useEffect, useState } from "react";
+import { getUserData } from "../Api";
 
 const AuthorInfo = (props) => {
     const { fname, lname } = props;
@@ -14,11 +16,27 @@ const AuthorInfo = (props) => {
     );
 };
 
-export const Home = ({ savePostId, data, wasUpdated, setWasUpdated }) => {
+export const Home = ({ savePostId, wasUpdated, setWasUpdated }) => {
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            // console.log("Fetching data");
+            try {
+                const result = await getUserData();
+                setData(result);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, [wasUpdated]);
     if (!data) {
         // Data is still being fetched
         return <div>Loading...</div>;
     }
+
     return (
         <div className="content">
             <AuthorInfo

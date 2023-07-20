@@ -13,8 +13,10 @@ export const newContentValidator = (e) => {
         return true;
     }
 };
+
+// New/Edit Content forms
 export const PostEditForm = (props) => {
-    const { title, text, published, setHomeUpdate, homeUpdate } = props;
+    const { title, text, published } = props;
     const initialState = { title, text, published };
     const [formData, setFormData] = useState(initialState);
     const [validData, setValidData] = useState();
@@ -33,8 +35,7 @@ export const PostEditForm = (props) => {
         e.preventDefault();
         if (validData) {
             updatePost(props._id, formData);
-            props.setEditMode(false);
-            setHomeUpdate(!homeUpdate);
+            props.setEditMode();
         }
     };
 
@@ -84,7 +85,7 @@ export const PostEditForm = (props) => {
             </button>
             <button
                 className="cancel-edit"
-                onClick={() => props.setEditMode(false)}
+                onClick={props.setEditMode}
                 type="button"
             >
                 Cancel
@@ -149,12 +150,14 @@ export const FormNewPost = (props) => {
         </form>
     );
 };
+
+// Confirmation forms
 export const ConfirmCommentDeletion = (props) => {
-    const { isDeleteMode, setDeleteMode, postID, commentID } = props;
+    const { setDeleteMode, postID, commentID } = props;
     const handleSubmit = async (e) => {
         e.preventDefault();
         await deleteComment(postID, commentID);
-        setDeleteMode(!isDeleteMode);
+        setDeleteMode();
         props.setWasUpdated(!props.wasUpdated);
     };
     return (
@@ -164,10 +167,7 @@ export const ConfirmCommentDeletion = (props) => {
                 <button onClick={handleSubmit} type="submit">
                     Yes
                 </button>
-                <button
-                    onClick={() => setDeleteMode(!isDeleteMode)}
-                    type="button"
-                >
+                <button onClick={() => setDeleteMode()} type="button">
                     No
                 </button>
             </form>
@@ -175,12 +175,10 @@ export const ConfirmCommentDeletion = (props) => {
     );
 };
 export const ConfirmPostDeletion = (props) => {
-    const { isDeleteMode, setDeleteMode, dbID } = props;
-    const { setHomeUpdate, homeUpdate } = props;
+    const { setDeleteMode, dbID } = props;
     const handleSubmit = async (e) => {
         e.preventDefault();
         await deletePost(dbID);
-        setHomeUpdate(!homeUpdate);
         document.querySelector(".back-home").click();
     };
     return (
@@ -190,10 +188,7 @@ export const ConfirmPostDeletion = (props) => {
                 <button onClick={handleSubmit} type="submit">
                     Yes
                 </button>
-                <button
-                    onClick={() => setDeleteMode(!isDeleteMode)}
-                    type="button"
-                >
+                <button onClick={setDeleteMode} type="button">
                     No
                 </button>
             </form>
