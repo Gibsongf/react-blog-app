@@ -14,14 +14,13 @@ const wholeFormValidator = (e) => {
     }
 };
 export const newContentValidator = (e) => {
-    const minLen = { text: 10, title: 4, user_name: 4, comment_text: 4 };
+    const minLen = { text: 10, title: 3, user_name: 4, comment_text: 4 };
     let el = e;
     if (e.type === "change") {
         el = e.target;
     }
 
     if (e.nodeName === "FORM") {
-        console.log(wholeFormValidator(e));
         return wholeFormValidator(e);
     }
     if (el.hasAttribute("required") && el.value.length < minLen[el.name]) {

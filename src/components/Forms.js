@@ -1,26 +1,15 @@
 import { useState } from "react";
 import { newPost, updatePost, deleteComment, deletePost } from "../Api";
-export const newContentValidator = (e) => {
-    const minLen = { text: 10, title: 4, user_name: 4, comment_text: 4 };
-    const el = e.target;
-    if (el.hasAttribute("required") && el.value.length < minLen[el.name]) {
-        el.setAttribute("style", "border-color:red");
-        el.className = "invalid";
-        return false;
-    } else {
-        el.setAttribute("style", "border-color:rgb(193, 186, 186)");
-        el.classList.remove("invalid");
-        return true;
-    }
-};
+import { newContentValidator } from "./FormValidation";
+
+// New/Edit form content
 export const PostEditForm = (props) => {
-    const { title, text, published, setHomeUpdate, homeUpdate } = props;
+    const { title, text, published } = props;
     const initialState = { title, text, published };
     const [formData, setFormData] = useState(initialState);
-    const [validData, setValidData] = useState();
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-        setValidData(newContentValidator(e));
+        newContentValidator(e);
     };
     const changeBooleanName = (e) => {
         if (e === false) {
@@ -31,10 +20,10 @@ export const PostEditForm = (props) => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
+        const validData = newContentValidator(e.target.parentElement);
         if (validData) {
             updatePost(props._id, formData);
             props.setEditMode(false);
-            setHomeUpdate(!homeUpdate);
         }
     };
 
@@ -96,13 +85,14 @@ export const PostEditForm = (props) => {
 export const FormNewPost = (props) => {
     const initialState = { text: "", title: "" };
     const [formData, setFormData] = useState(initialState);
-    const [validData, setValidData] = useState();
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-        setValidData(newContentValidator(e));
+        newContentValidator(e);
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const validData = newContentValidator(e.target.parentElement);
+
         if (validData) {
             await newPost(formData);
             e.target.parentElement.reset();
@@ -175,11 +165,9 @@ export const ConfirmCommentDeletion = (props) => {
 };
 export const ConfirmPostDeletion = (props) => {
     const { isDeleteMode, setDeleteMode, dbID } = props;
-    const { setHomeUpdate, homeUpdate } = props;
     const handleSubmit = async (e) => {
         e.preventDefault();
         await deletePost(dbID);
-        setHomeUpdate(!homeUpdate);
         document.querySelector(".back-home").click();
     };
     return (
