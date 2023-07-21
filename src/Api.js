@@ -1,9 +1,9 @@
+import { loginData } from "./user";
+
+//Should be '/login' login page instead of one function
 async function apiLogin() {
     const url = "http://localhost:5000/users/login";
-    const loginData = {
-        username: "Marta_Gutmann",
-        password: "YKrQ0xI713LtZs2",
-    };
+
     try {
         const response = await fetch(url, {
             method: "post",
