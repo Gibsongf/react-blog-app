@@ -1,5 +1,8 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-const Post = ({ title, timestamp, text, setPostId, id }) => {
+import { DataContext } from "../App";
+const Post = ({ title, timestamp, text, id }) => {
+    const { savePostId } = useContext(DataContext);
     const date = new Date(timestamp);
     const options = {
         year: "numeric",
@@ -11,7 +14,7 @@ const Post = ({ title, timestamp, text, setPostId, id }) => {
     const format_date = date.toLocaleString("en-US", options);
     return (
         <div className="post">
-            <NavLink to={`post/${id}`} onClick={setPostId}>
+            <NavLink to={`post/${id}`} onClick={savePostId}>
                 <h2 className="title" id={id}>
                     {title}
                 </h2>
@@ -22,11 +25,12 @@ const Post = ({ title, timestamp, text, setPostId, id }) => {
     );
 };
 
-export const AllPost = ({ allPosts, author, setPostId }) => {
+export const AllPost = ({ allPosts, setPostId }) => {
+    const author = JSON.parse(localStorage.getItem("author"));
     return (
         <>
             <h1>All Yours Post</h1>
-            
+
             <div className="posts-content">
                 {allPosts.map((post) => {
                     return (
