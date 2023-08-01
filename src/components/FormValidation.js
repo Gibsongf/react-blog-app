@@ -1,16 +1,20 @@
 const wholeFormValidator = (e) => {
-    const formIds = ["post-text", "title", "user_name", "comment_text"];
-    const valid = Array.from(e.children).map((el) => {
-        // need to get the input children here to properly validate de input
-        console.log(el.children[0]);
-        if (formIds.includes(el.className)) {
-            console.log(el.id);
-            return newContentValidator(el);
-        } else {
-            return el.id;
+    const formIds = ["post-text", "post-title", "user_name", "comment_text"];
+    const valid = [];
+    const checkElement = (element) => {
+        if (formIds.includes(element.id)) {
+            valid.push(newContentValidator(element));
         }
+    };
+    Array.from(e.children).forEach((el) => {
+        if (el.children.length < 1 && el.hasAttribute("id")) {
+            checkElement(el);
+        }
+        Array.from(el.children).forEach((e) => {
+            checkElement(e);
+        });
     });
-    console.log(valid);
+
     if (valid.includes(false)) {
         return false;
     } else {
