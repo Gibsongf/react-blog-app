@@ -44,11 +44,9 @@ export const Home = () => {
                 });
             if (!localAuthor) {
                 saveAuthor();
-                console.log("saved for not having any author in local storage");
             } else {
                 if (localAuthor.user_name !== author.user_name) {
                     saveAuthor();
-                    console.log("saved for being different user_name");
                 }
             }
         };
