@@ -85,7 +85,6 @@ export const PostDetails = () => {
                 const result = await getPostDetails(postId);
                 const formattedDate = format_date(result.post.timestamp);
                 result.post.timestamp = formattedDate;
-                console.log("render ");
                 setCurrentPost(result);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -110,13 +109,9 @@ export const PostDetails = () => {
                             author={currentPost.post.author}
                             text={currentPost.post.text}
                             timestamp={currentPost.post.timestamp}
-                            changeEditMode={changeEditMode}
                         />
                     ) : (
-                        <PostEditForm
-                            {...currentPost.post}
-                            setEditMode={changeEditMode}
-                        />
+                        <PostEditForm {...currentPost.post} />
                     )}
                 </div>
                 {currentPost.comment.length > 0 ? <RenderComments /> : ""}

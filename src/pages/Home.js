@@ -54,7 +54,7 @@ export const Home = () => {
         };
 
         fetchData();
-    }, [authorInfo]);
+    }, [authorInfo, wasUpdated]);
     if (!data) {
         // Data is still being fetched
         return <div>Loading...</div>;
@@ -63,10 +63,7 @@ export const Home = () => {
     return (
         <div className="content">
             <AuthorInfo />
-            <FormNewPost
-                wasUpdated={wasUpdated}
-                setWasUpdated={setWasUpdated}
-            />
+            <FormNewPost setWasUpdated={setWasUpdated} />
             <AllPost allPosts={data.posts} />
         </div>
     );

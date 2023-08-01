@@ -9,6 +9,8 @@ export const PostEditForm = (props) => {
     const { title, text, published } = props;
     const initialState = { title, text, published };
     const [formData, setFormData] = useState(initialState);
+    const { setWasUpdated } = useContext(UpdateContext);
+
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         newContentValidator(e);
@@ -24,8 +26,12 @@ export const PostEditForm = (props) => {
         e.preventDefault();
         const validData = newContentValidator(e.target.parentElement);
         if (validData) {
+            // api call to update post
             updatePost(props._id, formData);
+            // leave edit mode
             props.setEditMode(false);
+            // update post when confirm edition
+            setWasUpdated((e) => !e);
         }
     };
 
@@ -87,6 +93,7 @@ export const PostEditForm = (props) => {
 export const FormNewPost = (props) => {
     const initialState = { text: "", title: "" };
     const [formData, setFormData] = useState(initialState);
+
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         newContentValidator(e);
@@ -98,7 +105,7 @@ export const FormNewPost = (props) => {
         if (validData) {
             await newPost(formData);
             e.target.parentElement.reset();
-            props.setWasUpdated(!props.wasUpdated);
+            props.setWasUpdated((bool) => !bool);
         }
     };
     return (
@@ -150,7 +157,9 @@ export const ConfirmDeletionForm = (props) => {
     const { setWasUpdated } = useContext(UpdateContext);
 
     const handleComment = async () => {
+        // API call delete comment
         await deleteComment(postId, commentID);
+        // update post when confirm edition
         setWasUpdated((e) => !e);
     };
     const handlePost = async () => {
