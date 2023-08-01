@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { newPost, updatePost, deleteComment, deletePost } from "../Api";
 import { newContentValidator } from "./FormValidation";
+import { useNavigate } from "react-router-dom";
+import { UpdateContext } from "../pages/PostDetails";
 
 // New/Edit form content
 export const PostEditForm = (props) => {
@@ -141,46 +143,39 @@ export const FormNewPost = (props) => {
 };
 
 // Confirmation forms
-export const ConfirmCommentDeletion = (props) => {
-    const { setDeleteMode, postID, commentID } = props;
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await deleteComment(postID, commentID);
-        setDeleteMode();
-        props.setWasUpdated(!props.wasUpdated);
+export const ConfirmDeletionForm = (props) => {
+    const { setDeleteMode, commentID, warningText, deleteActionType } = props;
+    const postId = localStorage.getItem("postID");
+    const navigate = useNavigate();
+    const { setWasUpdated } = useContext(UpdateContext);
+
+    const handleComment = async () => {
+        await deleteComment(postId, commentID);
+        setWasUpdated((e) => !e);
     };
+    const handlePost = async () => {
+        await deletePost(postId);
+        navigate("/");
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (deleteActionType === "Post") {
+            handlePost();
+        }
+        if (deleteActionType === "Comment") {
+            handleComment();
+        }
+    };
+
     return (
         <>
-            <h5>Do you want to delete this Comment? </h5>
+            <h5>{warningText}</h5>
             <form action="DELETE">
                 <button onClick={handleSubmit} type="submit">
                     Yes
                 </button>
-                <button onClick={() => setDeleteMode()} type="button">
-                    No
-                </button>
-            </form>
-        </>
-    );
-};
-export const ConfirmPostDeletion = (props) => {
-    const { isDeleteMode, setDeleteMode, dbID } = props;
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await deletePost(dbID);
-        document.querySelector(".back-home").click();
-    };
-    return (
-        <>
-            <h3>Do you want to delete this Post? </h3>
-            <form action="DELETE">
-                <button onClick={handleSubmit} type="submit">
-                    Yes
-                </button>
-                <button
-                    onClick={() => setDeleteMode(!isDeleteMode)}
-                    type="button"
-                >
+                <button onClick={() => setDeleteMode((e) => !e)} type="button">
                     No
                 </button>
             </form>

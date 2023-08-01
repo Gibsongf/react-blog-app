@@ -25,7 +25,7 @@ const Post = ({ title, timestamp, text, id }) => {
     );
 };
 
-export const AllPost = ({ allPosts, setPostId }) => {
+export const AllPost = ({ allPosts }) => {
     const author = JSON.parse(localStorage.getItem("author"));
     return (
         <>
@@ -41,7 +41,6 @@ export const AllPost = ({ allPosts, setPostId }) => {
                             author={author}
                             timestamp={post.timestamp}
                             text={post.text}
-                            setPostId={setPostId}
                         />
                     );
                 })}

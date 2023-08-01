@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { newComment } from "../Api";
-import { ConfirmCommentDeletion } from "./Forms";
+import { ConfirmDeletionForm } from "./Forms";
 import { newContentValidator } from "./FormValidation";
+import { format_date } from "../utils";
+import { UpdateContext } from "../pages/PostDetails";
 
 export const NewComment = (props) => {
     const initialState = { user_name: "", comment_text: "" };
     const [formData, setFormData] = useState(initialState);
     // const [validData, setValidData] = useState();
+    const postId = localStorage.getItem("postID");
+    const { setWasUpdated } = useContext(UpdateContext);
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,8 +21,8 @@ export const NewComment = (props) => {
         e.preventDefault();
         const isValidData = newContentValidator(e.target.parentElement);
         if (isValidData) {
-            await newComment(props.postID, formData);
-            props.setWasUpdated(!props.wasUpdated);
+            await newComment(postId, formData);
+            setWasUpdated((e) => !e);
             e.target.parentElement.reset();
         }
     };
@@ -47,21 +51,15 @@ export const NewComment = (props) => {
     );
 };
 export const PostComment = (props) => {
-    const { userName, text, timestamp, postID, commentID } = props;
+    const { userName, text, timestamp, commentID } = props;
+    const postID = localStorage.getItem("postID");
     const [isDeleteMode, setDeleteMode] = useState(false);
-    const date = new Date(timestamp);
-    const options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-    };
-    const format_date = date.toLocaleString("en-US", options);
+    const formatted = format_date(timestamp);
+
     return (
         <div className="comment">
             <p className="comment-username">{userName}</p>
-            <p className="comment-timestamp">{format_date}</p>
+            <p className="comment-timestamp">{formatted}</p>
             <p className="comment-text">{text}</p>
 
             {!isDeleteMode ? (
@@ -72,13 +70,12 @@ export const PostComment = (props) => {
                     Delete
                 </button>
             ) : (
-                <ConfirmCommentDeletion
+                <ConfirmDeletionForm
+                    warningText={"Do you really want to delete this Comment?"}
                     setDeleteMode={setDeleteMode}
-                    isDeleteMode={isDeleteMode}
                     postID={postID}
                     commentID={commentID}
-                    wasUpdated={props.wasUpdated}
-                    setWasUpdated={props.setWasUpdated}
+                    deleteActionType={"Comment"}
                 />
             )}
         </div>

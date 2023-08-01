@@ -1,20 +1,35 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { getPostDetails } from "../Api";
-import { PostEditForm, ConfirmPostDeletion } from "../components/Forms";
+import { PostEditForm, ConfirmDeletionForm } from "../components/Forms";
 import { PostComment, NewComment } from "../components/Comment";
 import "../styles/PostDetails.css";
+import { format_date } from "../utils";
 
+export const UpdateContext = createContext({
+    wasUpdated: false,
+    setWasUpdated: () => {},
+    changeEditMode: () => {},
+});
+// Btn that triggers a form for delete or edit content
 const PostButtons = (props) => {
-    const { setEditMode, setDeleteMode } = props;
+    const { setDeleteMode } = props;
+    const { changeEditMode } = useContext(UpdateContext);
     return (
         <div className="buttons">
-            <button onClick={setEditMode}>Edit Post</button>
+            <button onClick={changeEditMode}>Edit Post</button>
             <button onClick={setDeleteMode}>Delete</button>
         </div>
     );
 };
 
 const PostInformation = ({ title, author, text, timestamp }) => {
+    const postId = localStorage.getItem("postID");
+
+    const [isDeleteMode, setDeleteMode] = useState(false);
+
+    const changeDeleteMode = () => {
+        setDeleteMode(!isDeleteMode);
+    };
     return (
         <div className="post-information">
             <h2 className="post-title">{title}</h2>
@@ -23,22 +38,29 @@ const PostInformation = ({ title, author, text, timestamp }) => {
             </h2>
             <p className="post-text">{text}</p>
             <h5 className="post-timestamp">{timestamp}</h5>
+            {!isDeleteMode ? (
+                <PostButtons setDeleteMode={changeDeleteMode} />
+            ) : (
+                <ConfirmDeletionForm
+                    warningText={"Do you really want to delete this Post?"}
+                    setDeleteMode={changeDeleteMode}
+                    dbID={postId}
+                    deleteActionType={"Post"}
+                />
+            )}
         </div>
     );
 };
-export const PostDetails = (props) => {
-    const { postId } = props;
+export const PostDetails = () => {
+    const postId = localStorage.getItem("postID");
     const [isEditMode, setEditMode] = useState(false);
-    const [isDeleteMode, setDeleteMode] = useState(false);
     const [currentPost, setCurrentPost] = useState(null);
-    const [wasUpdated, setWasUpdated] = useState(false);
+    const [wasUpdated, setWasUpdated] = useState(true);
 
     const changeEditMode = () => {
         setEditMode(!isEditMode);
     };
-    const changeDeleteMode = () => {
-        setDeleteMode(!isDeleteMode);
-    };
+
     const RenderComments = () => {
         return (
             <div className="all-comments">
@@ -47,12 +69,9 @@ export const PostDetails = (props) => {
                         <PostComment
                             key={comment._id}
                             commentID={comment._id}
-                            postID={postId}
                             userName={comment.user_name}
                             text={comment.text}
                             timestamp={comment.timestamp}
-                            wasUpdated={wasUpdated}
-                            setWasUpdated={setWasUpdated}
                         />
                     );
                 })}
@@ -64,24 +83,16 @@ export const PostDetails = (props) => {
         const fetchData = async () => {
             try {
                 const result = await getPostDetails(postId);
-                const date = new Date(result.post.timestamp);
-                const options = {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                };
-                const format_date = date.toLocaleString("en-US", options);
-
-                result.post.timestamp = format_date;
+                const formattedDate = format_date(result.post.timestamp);
+                result.post.timestamp = formattedDate;
+                console.log("render ");
                 setCurrentPost(result);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
         fetchData();
-    }, [postId, isEditMode, wasUpdated]);
+    }, [postId, wasUpdated]);
 
     if (!currentPost) {
         // Data is still being fetched
@@ -89,40 +100,28 @@ export const PostDetails = (props) => {
     }
     return (
         <div className="post-content">
-            <div className="post-details">
-                {!isEditMode ? (
-                    <>
+            <UpdateContext.Provider
+                value={{ wasUpdated, setWasUpdated, changeEditMode }}
+            >
+                <div className="post-details">
+                    {!isEditMode ? (
                         <PostInformation
                             title={currentPost.post.title}
-                            author={currentPost.author}
+                            author={currentPost.post.author}
                             text={currentPost.post.text}
                             timestamp={currentPost.post.timestamp}
+                            changeEditMode={changeEditMode}
                         />
-                        {!isDeleteMode ? (
-                            <PostButtons
-                                setDeleteMode={changeDeleteMode}
-                                setEditMode={changeEditMode}
-                            />
-                        ) : (
-                            <ConfirmPostDeletion
-                                setDeleteMode={changeDeleteMode}
-                                dbID={postId}
-                            />
-                        )}
-                    </>
-                ) : (
-                    <PostEditForm
-                        {...currentPost.post}
-                        setEditMode={changeEditMode}
-                    />
-                )}
-            </div>
-            {currentPost.comment.length > 0 ? <RenderComments /> : ""}
-            <NewComment
-                postID={postId}
-                wasUpdated={wasUpdated}
-                setWasUpdated={setWasUpdated}
-            />
+                    ) : (
+                        <PostEditForm
+                            {...currentPost.post}
+                            setEditMode={changeEditMode}
+                        />
+                    )}
+                </div>
+                {currentPost.comment.length > 0 ? <RenderComments /> : ""}
+                <NewComment />
+            </UpdateContext.Provider>
         </div>
     );
 };
