@@ -1,12 +1,16 @@
 const wholeFormValidator = (e) => {
-    const formIds = ["text", "title", "user_name", "comment_text"];
+    const formIds = ["post-text", "title", "user_name", "comment_text"];
     const valid = Array.from(e.children).map((el) => {
-        if (formIds.includes(el.id)) {
+        // need to get the input children here to properly validate de input
+        console.log(el.children[0]);
+        if (formIds.includes(el.className)) {
+            console.log(el.id);
             return newContentValidator(el);
         } else {
             return el.id;
         }
     });
+    console.log(valid);
     if (valid.includes(false)) {
         return false;
     } else {
@@ -15,11 +19,11 @@ const wholeFormValidator = (e) => {
 };
 export const newContentValidator = (e) => {
     const minLen = { text: 10, title: 3, user_name: 4, comment_text: 4 };
+
     let el = e;
     if (e.type === "change") {
         el = e.target;
     }
-
     if (e.nodeName === "FORM") {
         return wholeFormValidator(e);
     }

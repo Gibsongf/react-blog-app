@@ -7,9 +7,12 @@ import { UpdateContext } from "../pages/PostDetails";
 // New/Edit form content
 export const PostEditForm = (props) => {
     const { title, text, published } = props;
-    const initialState = { title, text, published };
+    let initialState = { title, text, published };
+    if (!title) {
+        initialState = { text: "", title: "" };
+    }
     const [formData, setFormData] = useState(initialState);
-    const { setWasUpdated } = useContext(UpdateContext);
+    const { setWasUpdated, changeEditMode } = useContext(UpdateContext);
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,11 +28,12 @@ export const PostEditForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const validData = newContentValidator(e.target.parentElement);
+        console.log(validData);
         if (validData) {
             // api call to update post
             updatePost(props._id, formData);
             // leave edit mode
-            props.setEditMode(false);
+            changeEditMode();
             // update post when confirm edition
             setWasUpdated((e) => !e);
         }
@@ -81,7 +85,7 @@ export const PostEditForm = (props) => {
             </button>
             <button
                 className="cancel-edit"
-                onClick={() => props.setEditMode(false)}
+                onClick={changeEditMode}
                 type="button"
             >
                 Cancel
@@ -91,7 +95,12 @@ export const PostEditForm = (props) => {
 };
 
 export const FormNewPost = (props) => {
-    const initialState = { text: "", title: "" };
+    const { title, text, published } = props;
+    let initialState;
+    if (!title) {
+        initialState = { text: "", title: "" };
+    }
+    console.log(initialState);
     const [formData, setFormData] = useState(initialState);
 
     const handleInputChange = (e) => {
