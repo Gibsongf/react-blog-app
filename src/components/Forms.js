@@ -4,31 +4,60 @@ import { newContentValidator } from "./FormValidation";
 import { useNavigate } from "react-router-dom";
 import { UpdateContext } from "../pages/PostDetails";
 import { TitlePost, TextPost, IsPublished, FormPostButton } from "./Inputs";
-
-// New/Edit form content
-export const PostEditForm = (props) => {
-    const { title, text, published } = props;
-    let initialState = { title, text, published };
-    if (!title) {
-        initialState = { text: "", title: "" };
-    }
-    const [formData, setFormData] = useState(initialState);
+const UseForm = (formType, initialState, postId, updateHome) => {
     const { setWasUpdated, changeEditMode } = useContext(UpdateContext);
+    const [formData, setFormData] = useState(initialState);
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         newContentValidator(e);
     };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const validData = newContentValidator(e.target.parentElement);
+
         if (validData) {
-            updatePost(props._id, formData); // api call to update post
-            changeEditMode(); // leave edit mode
-            setWasUpdated((e) => !e);
+            if (formType === "new") {
+                await newPost(formData);
+                setFormData({ text: "", title: "", published: false });
+                updateHome((bool) => !bool);
+            }
+            if (formType === "edit") {
+                updatePost(postId, formData); // api call to update post
+                changeEditMode(); // leave edit mode
+                setWasUpdated((e) => !e);
+            }
         }
     };
+    return { formData, handleInputChange, handleSubmit };
+};
+// New/Edit form content
+export const PostEditForm = (props) => {
+    const { title, text, published, _id } = props;
+
+    const initialState = { title, text, published };
+    const { formData, handleInputChange, handleSubmit } = UseForm(
+        "edit",
+        initialState,
+        _id
+    );
+    // const [formData, setFormData] = useState(initialState);
+    // const { setWasUpdated, changeEditMode } = useContext(UpdateContext);
+
+    // const handleInputChange = (e) => {
+    //     setFormData({ ...formData, [e.target.name]: e.target.value });
+    //     newContentValidator(e);
+    // };
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     const validData = newContentValidator(e.target.parentElement);
+    //     if (validData) {
+    //         updatePost(props._id, formData); // api call to update post
+    //         changeEditMode(); // leave edit mode
+    //         setWasUpdated((e) => !e);
+    //     }
+    // };
 
     return (
         <form method="POST" action="" className="edit-post-form">
@@ -43,25 +72,15 @@ export const PostEditForm = (props) => {
     );
 };
 
-export const FormNewPost = (props) => {
+export const FormNewPost = ({ setWasUpdated }) => {
     const initialState = { text: "", title: "", published: false };
 
-    const [formData, setFormData] = useState(initialState);
-
-    const handleInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-        newContentValidator(e);
-    };
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const validData = newContentValidator(e.target.parentElement);
-
-        if (validData) {
-            await newPost(formData);
-            setFormData({ text: "", title: "", published: false });
-            props.setWasUpdated((bool) => !bool);
-        }
-    };
+    const { formData, handleInputChange, handleSubmit } = UseForm(
+        "new",
+        initialState,
+        "",
+        setWasUpdated
+    );
     return (
         <form method="post" className="new-post">
             <TitlePost
