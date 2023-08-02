@@ -3,6 +3,7 @@ import { newPost, updatePost, deleteComment, deletePost } from "../Api";
 import { newContentValidator } from "./FormValidation";
 import { useNavigate } from "react-router-dom";
 import { UpdateContext } from "../pages/PostDetails";
+import { TitlePost, TextPost, IsPublished, FormPostButton } from "./Inputs";
 
 // New/Edit form content
 export const PostEditForm = (props) => {
@@ -18,89 +19,33 @@ export const PostEditForm = (props) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         newContentValidator(e);
     };
-    const changeBooleanName = (e) => {
-        if (e === false) {
-            return "No";
-        } else {
-            return "Yes";
-        }
-    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const validData = newContentValidator(e.target.parentElement);
-        console.log(validData);
         if (validData) {
-            // api call to update post
-            updatePost(props._id, formData);
-            // leave edit mode
-            changeEditMode();
-            // update post when confirm edition
+            updatePost(props._id, formData); // api call to update post
+            changeEditMode(); // leave edit mode
             setWasUpdated((e) => !e);
         }
     };
 
     return (
         <form method="POST" action="" className="edit-post-form">
-            <div className="title">
-                <input
-                    type="text"
-                    id="post-title"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                    required
-                />
-            </div>
-            <div className="post-text">
-                <textarea
-                    type="text"
-                    name="text"
-                    id="post-text"
-                    value={formData.text}
-                    onChange={handleInputChange}
-                    required
-                ></textarea>
-            </div>
-            <div className="published">
-                <label htmlFor="published">Published:</label>
-                <select
-                    name="published"
-                    id="published"
-                    onChange={handleInputChange}
-                >
-                    <option value={published}>
-                        {changeBooleanName(published)}
-                    </option>
-                    <option value={!published}>
-                        {changeBooleanName(!published)}
-                    </option>
-                </select>
-            </div>
-            <button
-                className="confirm-edit"
-                onClick={handleSubmit}
-                type="submit"
-            >
-                Confirm Edit
-            </button>
-            <button
-                className="cancel-edit"
-                onClick={changeEditMode}
-                type="button"
-            >
-                Cancel
-            </button>
+            <TitlePost value={formData.title} handler={handleInputChange} />
+            <TextPost value={formData.text} handler={handleInputChange} />
+            <IsPublished
+                value={formData.published}
+                handler={handleInputChange}
+            />
+            <FormPostButton handleSubmit={handleSubmit} />
         </form>
     );
 };
 
 export const FormNewPost = (props) => {
-    const { title, text, published } = props;
-    let initialState;
-    if (!title) {
-        initialState = { text: "", title: "" };
-    }
-    console.log(initialState);
+    const initialState = { text: "", title: "", published: false };
+
     const [formData, setFormData] = useState(initialState);
 
     const handleInputChange = (e) => {
@@ -113,47 +58,27 @@ export const FormNewPost = (props) => {
 
         if (validData) {
             await newPost(formData);
-            e.target.parentElement.reset();
+            setFormData({ text: "", title: "", published: false });
             props.setWasUpdated((bool) => !bool);
         }
     };
     return (
         <form method="post" className="new-post">
-            <input
-                placeholder="Title (min characters: 3)"
-                type="text"
-                name="title"
-                id="title"
-                onChange={handleInputChange}
-                required
+            <TitlePost
+                placeholder={"Title (min characters: 3)"}
+                handler={handleInputChange}
+                value={formData.title}
             />
-            <textarea
-                placeholder="Write your new post (min characters: 10)"
-                type="text"
-                name="text"
-                id="text"
-                minLength="10"
-                onChange={handleInputChange}
-                required
-            ></textarea>
-            <div className="published">
-                <label htmlFor="published">Published: </label>
-                <select
-                    name="published"
-                    id="published"
-                    onChange={handleInputChange}
-                >
-                    <option value={false}>No</option>
-                    <option value={true}>Yes</option>
-                </select>
-            </div>
-            <button
-                className="submit-new-post"
-                onClick={handleSubmit}
-                type="submit"
-            >
-                Save Post
-            </button>
+            <TextPost
+                placeholder={"Write your new post (min characters: 10)"}
+                handler={handleInputChange}
+                value={formData.text}
+            />
+            <IsPublished
+                value={formData.published}
+                handler={handleInputChange}
+            />
+            <FormPostButton handleSubmit={handleSubmit} newContent={true} />
         </form>
     );
 };
