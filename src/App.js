@@ -7,11 +7,16 @@ import { Home } from "./pages/Home";
 const Header = () => {
     return (
         <div className="header">
-            <NavLink to="/" className="back-home">
-                <h1>Blog Editor</h1>
-            </NavLink>
+            <h1>
+                <NavLink to="/" className="back-home">
+                    Blog Editor
+                </NavLink>
+            </h1>
         </div>
     );
+};
+const Footer = () => {
+    return <div className="footer"></div>;
 };
 export const DataContext = createContext({
     savePostId: () => {},
@@ -33,6 +38,7 @@ function App() {
                     <Route path="/post/:id" element={<PostDetails />} />
                 </Routes>
             </DataContext.Provider>
+            <Footer />
         </div>
     );
 }

@@ -41,23 +41,6 @@ export const PostEditForm = (props) => {
         initialState,
         _id
     );
-    // const [formData, setFormData] = useState(initialState);
-    // const { setWasUpdated, changeEditMode } = useContext(UpdateContext);
-
-    // const handleInputChange = (e) => {
-    //     setFormData({ ...formData, [e.target.name]: e.target.value });
-    //     newContentValidator(e);
-    // };
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const validData = newContentValidator(e.target.parentElement);
-    //     if (validData) {
-    //         updatePost(props._id, formData); // api call to update post
-    //         changeEditMode(); // leave edit mode
-    //         setWasUpdated((e) => !e);
-    //     }
-    // };
 
     return (
         <form method="POST" action="" className="edit-post-form">

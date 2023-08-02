@@ -10,6 +10,7 @@ export const UpdateContext = createContext({
     setWasUpdated: () => {},
     changeEditMode: () => {},
 });
+
 // Btn that triggers a form for delete or edit content
 const PostButtons = (props) => {
     const { setDeleteMode } = props;
@@ -56,7 +57,6 @@ export const PostDetails = () => {
     const [isEditMode, setEditMode] = useState(false);
     const [currentPost, setCurrentPost] = useState(null);
     const [wasUpdated, setWasUpdated] = useState(true);
-
     const changeEditMode = () => {
         setEditMode(!isEditMode);
     };

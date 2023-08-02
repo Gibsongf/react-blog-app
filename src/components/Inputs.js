@@ -6,7 +6,7 @@ export const TitlePost = ({ handler, value, placeholder }) => {
         value = "";
     }
     return (
-        <div className="title">
+        <div className="form-title">
             <input
                 placeholder={placeholder}
                 type="text"
@@ -24,7 +24,7 @@ export const TextPost = ({ handler, value, placeholder }) => {
         value = "";
     }
     return (
-        <div className="post-text">
+        <div className="form-text">
             <textarea
                 placeholder={placeholder}
                 type="text"
