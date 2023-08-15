@@ -1,5 +1,6 @@
 # Blog Editor
 This project is part of [The Odin Project](https://www.theodinproject.com/), specifically the Full Stack JavaScript path.
+Visit the REST API repo for this project [here](https://github.com/Gibsongf/express-blog-api)
 ## Features
 
 - Create new posts: Write and publish your blog posts
