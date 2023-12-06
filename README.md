@@ -9,14 +9,5 @@ Visit the REST API repo for this project [here](https://github.com/Gibsongf/expr
 - Delete posts: Remove any posts that you no longer want to keep.
 - Commenting system
 
-## Technologies Used
 
-- Front-end:
-  - React
-  - React Router
-  - CSS
-- Back-end:
-  - Node.js
-  - Express
-  - MongoDB
 
