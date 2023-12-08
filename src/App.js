@@ -1,8 +1,9 @@
 import "./styles/App.css";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { Routes, Route, NavLink } from "react-router-dom";
 import { PostDetails } from "./pages/PostDetails";
 import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
 
 const Header = () => {
     return (
@@ -23,21 +24,27 @@ export const DataContext = createContext({
     authorInfo: () => {},
 });
 function App() {
+    const [token, setToken] = useState(localStorage.getItem("token"));
     const savePostId = (e) => {
         localStorage.setItem("postID", e.target.id);
     };
     const authorInfo = (info) => {
         localStorage.setItem("author", JSON.stringify(info));
     };
+
     return (
         <div className="App">
             <Header />
-            <DataContext.Provider value={{ savePostId, authorInfo }}>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/post/:id" element={<PostDetails />} />
-                </Routes>
-            </DataContext.Provider>
+            {!token ? (
+                <Login setToken={setToken} />
+            ) : (
+                <DataContext.Provider value={{ savePostId, authorInfo }}>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/post/:id" element={<PostDetails />} />
+                    </Routes>
+                </DataContext.Provider>
+            )}
             <Footer />
         </div>
     );

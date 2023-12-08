@@ -23,7 +23,7 @@ const UseForm = (formType, initialState, postId, updateHome) => {
                 updateHome((bool) => !bool);
             }
             if (formType === "edit") {
-                updatePost(postId, formData); // api call to update post
+                await updatePost(postId, formData); // api call to update post
                 changeEditMode(); // leave edit mode
                 setWasUpdated((e) => !e);
             }
