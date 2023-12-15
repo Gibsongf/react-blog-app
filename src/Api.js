@@ -80,7 +80,11 @@ export async function getUserData() {
     const data = await setupFetch(url);
     return data;
 }
-
+export async function getAuthorDetails(id) {
+    const url = `http://localhost:3000/public/author/${id}`;
+    const data = await setupFetch(url, "get");
+    return data;
+}
 export async function newPost(formData) {
     const url = `http://localhost:3000/api/post/`;
     const data = await setupFetch(url, "post", formData);

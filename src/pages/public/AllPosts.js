@@ -11,7 +11,7 @@ const Post = ({ title, author, timestamp, text, id }) => {
         authorLink = `/profile`;
         postLink = `/profile/post/${id}`;
     }
-
+    console.log(authorLink);
     const saveAuthorId = (e) => {
         if (localStorage["authorID"]) {
             localStorage.removeItem("authorID");
@@ -40,7 +40,7 @@ const Post = ({ title, author, timestamp, text, id }) => {
 
 export const AllPublicPost = () => {
     const [data, setData] = useState(null);
-    const [wasUpdated, setWasUpdated] = useState(false);
+    // const [wasUpdated, setWasUpdated] = useState(false);
     const location = useLocation();
     const currentUrl = location.pathname + location.search;
 
@@ -57,7 +57,7 @@ export const AllPublicPost = () => {
         };
 
         fetchData();
-    }, [wasUpdated]);
+    }, []);
     return (
         <div className="post-content">
             {data?.allPost.map((post) => {

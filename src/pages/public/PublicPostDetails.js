@@ -5,18 +5,23 @@ import { PostComment, NewComment } from "../../components/Comment";
 import { getPostDetails } from "../../Api";
 import { formatDate } from "../../utils";
 // import "src/styles/PostDetails.css";
-const PostInformation = ({ title, authorName, authorID, text, timestamp }) => {
+const PostInformation = ({ title, authorInfo, text, timestamp }) => {
+    // console.log(authorInfo);
+    const fullName = `${authorInfo.first_name} ${authorInfo.last_name}`;
     const saveAuthorId = () => {
         if (localStorage["authorID"]) {
             localStorage.removeItem("authorID");
         }
-        localStorage.setItem("authorID", authorID._id);
+        localStorage.setItem("authorID", authorInfo._id);
     };
     return (
         <div className="post-information">
             <h2 className="post-title">{title}</h2>
-            <NavLink to={`/author/${authorID._id}`} onClick={saveAuthorId}>
-                <h2 className="post-author">{authorName}</h2>
+            <NavLink
+                to={`/public/author/${authorInfo._id}`}
+                onClick={saveAuthorId}
+            >
+                <h2 className="post-author">{fullName}</h2>
             </NavLink>
             <p className="post-text">{text}</p>
             <h5 className="post-timestamp">{timestamp}</h5>
@@ -79,7 +84,6 @@ export const PublicPostDetails = () => {
             <div className="post-details">
                 <PostInformation
                     title={currentPost.title}
-                    authorID={currentPost.author}
                     authorInfo={author}
                     text={currentPost.text}
                     timestamp={currentPost.timestamp}

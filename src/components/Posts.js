@@ -1,9 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { formatDate, savePostId } from "../utils";
+
 const Post = ({ title, timestamp, text, id }) => {
+    let postLink = `/public/post/${id}`;
+    const location = useLocation();
+    const currentUrl = location.pathname.split("/")[1];
+    if (currentUrl === "profile") {
+        postLink = `/profile/post/${id}`;
+    }
     return (
         <div className="post">
-            <Link to={`post/${id}`} onClick={savePostId}>
+            <Link to={postLink} onClick={savePostId}>
                 <h2 className="title" id={id}>
                     {title}
                 </h2>
@@ -14,20 +21,25 @@ const Post = ({ title, timestamp, text, id }) => {
     );
 };
 
-export const AllPost = ({ allPosts }) => {
-    const author = JSON.parse(localStorage.getItem("author"));
+export const AllPost = ({ allPosts, author }) => {
+    let authorPost = author;
+    if (!author) {
+        authorPost = JSON.parse(localStorage.getItem("author"));
+    }
+    const location = useLocation();
+    const currentUrl = location.pathname.split("/")[1];
     return (
         <>
-            <h1>All Yours Post</h1>
+            {currentUrl === "profile" && <h1>All Yours Post</h1>}
 
             <div className="posts-content">
-                {allPosts.map((post) => {
+                {allPosts?.map((post) => {
                     return (
                         <Post
                             key={post._id}
                             id={post._id}
                             title={post.title}
-                            author={author}
+                            author={authorPost}
                             timestamp={post.timestamp}
                             text={post.text}
                         />

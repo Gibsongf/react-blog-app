@@ -6,6 +6,7 @@ import { UserProfile } from "./pages/UserProfile";
 import { Login } from "./pages/Login";
 import { AllPublicPost } from "./pages/public/AllPosts";
 import { PublicPostDetails } from "./pages/public/PublicPostDetails";
+import { PublicAuthorDetails } from "./pages/public/PublicAuthorDetails";
 
 const Header = () => {
     return (
@@ -37,6 +38,10 @@ function App() {
                 <Route path="public/*">
                     <Route index element={<AllPublicPost />} />
                     <Route path="post/:id" element={<PublicPostDetails />} />
+                    <Route
+                        path="author/:id"
+                        element={<PublicAuthorDetails />}
+                    />
                 </Route>
             </Routes>
             <Footer />
