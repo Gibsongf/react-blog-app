@@ -1,6 +1,6 @@
 import "./styles/App.css";
 import { useState } from "react";
-import { Routes, Route, NavLink } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { PostDetails } from "./pages/PostDetails";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
@@ -9,9 +9,9 @@ const Header = () => {
     return (
         <div className="header">
             <h1>
-                <NavLink to="/" className="back-home">
+                <Link to="/profile" className="back-home">
                     Blog Editor
-                </NavLink>
+                </Link>
             </h1>
         </div>
     );
@@ -26,14 +26,13 @@ function App() {
     return (
         <div className="App">
             <Header />
-            {!token ? (
-                <Login setToken={setToken} />
-            ) : (
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/post/:id" element={<PostDetails />} />
-                </Routes>
-            )}
+            {!token ? <Login setToken={setToken} /> : ""}
+            <Routes>
+                <Route path="profile/*">
+                    <Route index element={<Home />} />
+                    <Route path="post/:id" element={<PostDetails />} />
+                </Route>
+            </Routes>
             <Footer />
         </div>
     );

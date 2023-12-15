@@ -4,6 +4,7 @@ import { PostEditForm, ConfirmDeletionForm } from "../components/Forms";
 import { PostComment, NewComment } from "../components/Comment";
 import "../styles/PostDetails.css";
 import { formatDate } from "../utils";
+import { Link } from "react-router-dom";
 
 export const UpdateContext = createContext({
     wasUpdated: false,
@@ -35,7 +36,9 @@ const PostInformation = ({ title, author, text, timestamp }) => {
         <div className="post-information">
             <h2 className="post-title">{title}</h2>
             <h2 className="post-author">
-                {author.first_name} {author.last_name}
+                <Link to="/profile">
+                    {author.first_name} {author.last_name}
+                </Link>
             </h2>
             <p className="post-text">{text}</p>
             <h5 className="post-timestamp">{timestamp}</h5>
