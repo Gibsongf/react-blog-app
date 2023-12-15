@@ -2,10 +2,10 @@ import { useContext, useState } from "react";
 import { newPost, updatePost, deleteComment, deletePost } from "../Api";
 import { newContentValidator } from "./FormValidation";
 import { useNavigate } from "react-router-dom";
-import { UpdateContext } from "../pages/UserPostDetails";
+import { UserUpdateContext } from "../pages/UserPostDetails";
 import { TitlePost, TextPost, IsPublished, FormPostButton } from "./Inputs";
 const UseForm = (formType, initialState, postId, updateHome) => {
-    const { setWasUpdated, changeEditMode } = useContext(UpdateContext);
+    const { setWasUpdated, changeEditMode } = useContext(UserUpdateContext);
     const [formData, setFormData] = useState(initialState);
 
     const handleInputChange = (e) => {
@@ -90,7 +90,7 @@ export const ConfirmDeletionForm = (props) => {
     const { setDeleteMode, commentID, warningText, deleteActionType } = props;
     const postId = localStorage.getItem("postID");
     const navigate = useNavigate();
-    const { setWasUpdated } = useContext(UpdateContext);
+    const { setWasUpdated } = useContext(UserUpdateContext);
 
     const handleComment = async () => {
         // API call delete comment

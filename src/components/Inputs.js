@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { UpdateContext } from "../pages/UserPostDetails";
+import { UserUpdateContext } from "../pages/UserPostDetails";
 
 export const TitlePost = ({ handler, value, placeholder }) => {
     if (!value) {
@@ -55,7 +55,7 @@ export const IsPublished = ({ handler, value }) => {
     );
 };
 export const FormPostButton = ({ handleSubmit, newContent }) => {
-    const { changeEditMode } = useContext(UpdateContext);
+    const { changeEditMode } = useContext(UserUpdateContext);
 
     return (
         <>

@@ -6,7 +6,7 @@ import "../styles/PostDetails.css";
 import { formatDate } from "../utils";
 import { Link } from "react-router-dom";
 
-export const UpdateContext = createContext({
+export const UserUpdateContext = createContext({
     wasUpdated: false,
     setWasUpdated: () => {},
     changeEditMode: () => {},
@@ -15,7 +15,7 @@ export const UpdateContext = createContext({
 // Btn that triggers a form for delete or edit content
 const PostButtons = (props) => {
     const { setDeleteMode } = props;
-    const { changeEditMode } = useContext(UpdateContext);
+    const { changeEditMode } = useContext(UserUpdateContext);
     return (
         <div className="buttons">
             <button onClick={changeEditMode}>Edit Post</button>
@@ -102,7 +102,7 @@ export const UserPostDetails = () => {
     }
     return (
         <div className="post-content">
-            <UpdateContext.Provider
+            <UserUpdateContext.Provider
                 value={{ wasUpdated, setWasUpdated, changeEditMode }}
             >
                 <div className="post-details">
@@ -119,7 +119,7 @@ export const UserPostDetails = () => {
                 </div>
                 {currentPost.comment.length > 0 ? <RenderComments /> : ""}
                 <NewComment />
-            </UpdateContext.Provider>
+            </UserUpdateContext.Provider>
         </div>
     );
 };

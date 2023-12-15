@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { getPostDetails } from "../Api";
+import { useEffect, useState, createContext } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import "../styles/PostDetails.css";
-import { Loading } from "../components/Loading";
-
+// import { Loading } from "../components/Loading";
+import { PostComment, NewComment } from "../../components/Comment";
+import { getPostDetails } from "../../Api";
+import { formatDate } from "../../utils";
+// import "src/styles/PostDetails.css";
 const PostInformation = ({ title, authorName, authorID, text, timestamp }) => {
     const saveAuthorId = () => {
         if (localStorage["authorID"]) {
@@ -22,11 +23,15 @@ const PostInformation = ({ title, authorName, authorID, text, timestamp }) => {
         </div>
     );
 };
-export const PostDetails = (props) => {
-    const { postId } = props;
+export const PublicUpdateContext = createContext({
+    updated: false,
+    setUpdated: () => {},
+});
+export const PublicPostDetails = () => {
+    // const { postId } = props;
     const [currentPost, setCurrentPost] = useState(null);
     const [postComments, setPostComments] = useState(null);
-    const [authorName, setAuthorName] = useState(null);
+    const [author, setAuthor] = useState(null);
     const [wasUpdated, setWasUpdated] = useState(false);
 
     const RenderComments = () => {
@@ -37,7 +42,6 @@ export const PostDetails = (props) => {
                         <PostComment
                             key={comment._id}
                             commentID={comment._id}
-                            postID={postId}
                             userName={comment.user_name}
                             text={comment.text}
                             timestamp={comment.timestamp}
@@ -55,30 +59,20 @@ export const PostDetails = (props) => {
             const postID = localStorage["postID"];
             try {
                 const result = await getPostDetails(postID);
-                const date = new Date(result.post.timestamp);
-                const options = {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                };
-                const format_date = date.toLocaleString("en-US", options);
-
-                result.post.timestamp = format_date;
-                setCurrentPost(result.post);
-                setAuthorName(result.author);
-                setPostComments(result.comment);
+                result.post.timestamp = formatDate(result.post.timestamp);
+                setCurrentPost(() => result.post);
+                setAuthor(() => result.post.author);
+                setPostComments(() => result.comment);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
         fetchData();
-    }, [postId, wasUpdated]);
+    }, [wasUpdated]);
 
     if (!currentPost) {
         // Data is still being fetched
-        return <Loading />;
+        return <div>Load</div>; //<Loading />;
     }
     return (
         <div className="post-content">
@@ -86,17 +80,17 @@ export const PostDetails = (props) => {
                 <PostInformation
                     title={currentPost.title}
                     authorID={currentPost.author}
-                    authorName={authorName}
+                    authorInfo={author}
                     text={currentPost.text}
                     timestamp={currentPost.timestamp}
                 />
             </div>
-            {postComments.length > 0 ? <RenderComments /> : ""}
-            <NewComment
-                postID={postId}
-                wasUpdated={wasUpdated}
-                setWasUpdated={setWasUpdated}
-            />
+            <PublicUpdateContext.Provider
+                value={{ updated: wasUpdated, setUpdated: setWasUpdated }}
+            >
+                {postComments.length > 0 ? <RenderComments /> : ""}
+                <NewComment />
+            </PublicUpdateContext.Provider>
         </div>
     );
 };

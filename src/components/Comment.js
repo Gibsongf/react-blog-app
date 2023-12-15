@@ -3,15 +3,17 @@ import { newComment } from "../Api";
 import { ConfirmDeletionForm } from "./Forms";
 import { newContentValidator } from "./FormValidation";
 import { formatDate } from "../utils";
-import { UpdateContext } from "../pages/UserPostDetails";
+import { UserUpdateContext } from "../pages/UserPostDetails";
 import { useLocation } from "react-router-dom";
+import { PublicUpdateContext } from "../pages/public/PublicPostDetails";
 
-export const NewComment = (props) => {
+export const NewComment = () => {
     const initialState = { user_name: "", comment_text: "" };
     const [formData, setFormData] = useState(initialState);
     // const [validData, setValidData] = useState();
     const postId = localStorage.getItem("postID");
-    const { setWasUpdated } = useContext(UpdateContext);
+    const { setWasUpdated } = useContext(UserUpdateContext);
+    const { setUpdated } = useContext(PublicUpdateContext);
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,6 +26,7 @@ export const NewComment = (props) => {
         if (isValidData) {
             await newComment(postId, formData);
             setWasUpdated((e) => !e);
+            setUpdated((e) => !e);
             e.target.parentElement.reset();
         }
     };

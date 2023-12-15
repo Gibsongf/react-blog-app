@@ -5,6 +5,7 @@ import { UserPostDetails } from "./pages/UserPostDetails";
 import { UserProfile } from "./pages/UserProfile";
 import { Login } from "./pages/Login";
 import { AllPublicPost } from "./pages/public/AllPosts";
+import { PublicPostDetails } from "./pages/public/PublicPostDetails";
 
 const Header = () => {
     return (
@@ -35,7 +36,7 @@ function App() {
                 </Route>
                 <Route path="public/*">
                     <Route index element={<AllPublicPost />} />
-                    {/* <Route path="post/id" element={} /> */}
+                    <Route path="post/:id" element={<PublicPostDetails />} />
                 </Route>
             </Routes>
             <Footer />
