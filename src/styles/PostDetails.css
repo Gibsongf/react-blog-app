@@ -1,9 +1,10 @@
 /* Post */
 .post-content {
-  grid-column: 2;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  grid-column: 2;
+
 }
 
 .post-details {

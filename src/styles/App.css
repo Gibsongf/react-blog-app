@@ -114,6 +114,11 @@ body {
   color: black;
 }
 
+.post h4 {
+  color: black;
+
+}
+
 .post h5 {
   color: #666;
   margin-bottom: 8px;

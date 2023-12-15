@@ -56,7 +56,7 @@ async function setupFetch(url, reqMethod = "get", body) {
     }
 }
 export async function getIndexData() {
-    const url = "http://localhost:3000/index";
+    const url = "http://localhost:3000/public";
     const reqConfig = {
         method: "get",
         headers: {

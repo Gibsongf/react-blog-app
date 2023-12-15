@@ -4,6 +4,7 @@ import { ConfirmDeletionForm } from "./Forms";
 import { newContentValidator } from "./FormValidation";
 import { formatDate } from "../utils";
 import { UpdateContext } from "../pages/UserPostDetails";
+import { useLocation } from "react-router-dom";
 
 export const NewComment = (props) => {
     const initialState = { user_name: "", comment_text: "" };
@@ -50,6 +51,18 @@ export const NewComment = (props) => {
         </form>
     );
 };
+const ConditionalBtn = ({ setDeleteMode }) => {
+    const location = useLocation();
+    const currentUrl = location.pathname.split("/")[1];
+    if (currentUrl === "public") {
+        return;
+    }
+    return (
+        <button onClick={() => setDeleteMode((e) => !e)} type="button">
+            Delete
+        </button>
+    );
+};
 export const PostComment = (props) => {
     const { userName, text, timestamp, commentID } = props;
     const postID = localStorage.getItem("postID");
@@ -60,17 +73,11 @@ export const PostComment = (props) => {
             <p className="comment-username">{userName}</p>
             <p className="comment-timestamp">{formatDate(timestamp)}</p>
             <p className="comment-text">{text}</p>
-
             {!isDeleteMode ? (
-                <button
-                    onClick={() => setDeleteMode(!isDeleteMode)}
-                    type="button"
-                >
-                    Delete
-                </button>
+                <ConditionalBtn setDeleteMode={setDeleteMode} />
             ) : (
                 <ConfirmDeletionForm
-                    warningText={"Do you really want to delete this Comment?"}
+                    warningText={"Do you really want to delete this Comment?2"}
                     setDeleteMode={setDeleteMode}
                     postID={postID}
                     commentID={commentID}

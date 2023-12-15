@@ -13,6 +13,9 @@ export const formatDate = (timestamp) => {
 export const savePostId = (e) => {
     localStorage.setItem("postID", e.target.id);
 };
+// export const saveAuthorId = (e) => {
+//     localStorage.setItem("authorID", author._id)
+// };
 export const saveUserInfo = (info) => {
     localStorage.setItem("userProfile", JSON.stringify(info));
 };

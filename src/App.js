@@ -4,6 +4,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import { UserPostDetails } from "./pages/UserPostDetails";
 import { UserProfile } from "./pages/UserProfile";
 import { Login } from "./pages/Login";
+import { AllPublicPost } from "./pages/public/AllPosts";
 
 const Header = () => {
     return (
@@ -31,6 +32,10 @@ function App() {
                 <Route path="profile/*">
                     <Route index element={<UserProfile />} />
                     <Route path="post/:id" element={<UserPostDetails />} />
+                </Route>
+                <Route path="public/*">
+                    <Route index element={<AllPublicPost />} />
+                    {/* <Route path="post/id" element={} /> */}
                 </Route>
             </Routes>
             <Footer />
