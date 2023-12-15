@@ -1,5 +1,5 @@
 import "./styles/App.css";
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { Routes, Route, NavLink } from "react-router-dom";
 import { PostDetails } from "./pages/PostDetails";
 import { Home } from "./pages/Home";
