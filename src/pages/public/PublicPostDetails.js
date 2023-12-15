@@ -6,7 +6,6 @@ import { getPostDetails } from "../../Api";
 import { formatDate } from "../../utils";
 // import "src/styles/PostDetails.css";
 const PostInformation = ({ title, authorInfo, text, timestamp }) => {
-    // console.log(authorInfo);
     const fullName = `${authorInfo.first_name} ${authorInfo.last_name}`;
     const saveAuthorId = () => {
         if (localStorage["authorID"]) {
@@ -65,6 +64,7 @@ export const PublicPostDetails = () => {
             try {
                 const result = await getPostDetails(postID);
                 result.post.timestamp = formatDate(result.post.timestamp);
+                // console.log("public post details");
                 setCurrentPost(() => result.post);
                 setAuthor(() => result.post.author);
                 setPostComments(() => result.comment);

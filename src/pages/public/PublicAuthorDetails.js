@@ -23,6 +23,7 @@ export const PublicAuthorDetails = () => {
         const fetchData = async () => {
             const authorID = localStorage["authorID"];
             try {
+                // console.log("public author details");
                 const result = await getAuthorDetails(authorID);
                 // console.log(result);
                 setCurrentAuthor(() => result);
@@ -37,7 +38,7 @@ export const PublicAuthorDetails = () => {
         // Data is still being fetched
         return; //<Loading />;
     }
-    console.log(currentAuthor.posts);
+    // console.log(currentAuthor.posts);
     return (
         <div className="content">
             <AuthorInfo name={currentAuthor.name} />

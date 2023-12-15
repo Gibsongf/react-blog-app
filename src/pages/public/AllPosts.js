@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { formatDate, savePostId } from "../../utils";
 import { useEffect, useState } from "react";
 import { getIndexData } from "../../Api";
@@ -11,7 +11,6 @@ const Post = ({ title, author, timestamp, text, id }) => {
         authorLink = `/profile`;
         postLink = `/profile/post/${id}`;
     }
-    console.log(authorLink);
     const saveAuthorId = (e) => {
         if (localStorage["authorID"]) {
             localStorage.removeItem("authorID");
@@ -26,8 +25,8 @@ const Post = ({ title, author, timestamp, text, id }) => {
                     {title}
                 </h2>
             </NavLink>
-            <NavLink id={author._id} to={authorLink} onClick={saveAuthorId}>
-                <h4 className="all-post-author-link">
+            <NavLink to={authorLink} onClick={saveAuthorId}>
+                <h4 id={author._id} className="all-post-author-link">
                     {author.first_name} {author.last_name}
                 </h4>
             </NavLink>
@@ -41,13 +40,10 @@ const Post = ({ title, author, timestamp, text, id }) => {
 export const AllPublicPost = () => {
     const [data, setData] = useState(null);
     // const [wasUpdated, setWasUpdated] = useState(false);
-    const location = useLocation();
-    const currentUrl = location.pathname + location.search;
 
-    console.log("Current URL:", currentUrl);
     useEffect(() => {
         const fetchData = async () => {
-            console.log("Fetching data");
+            // console.log("Fetching data");
             try {
                 const result = await getIndexData();
                 setData(() => result);

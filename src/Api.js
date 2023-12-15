@@ -75,12 +75,12 @@ export async function getIndexData() {
 }
 export async function getUserData() {
     // console.log(process.env);
-
     const url = "http://localhost:3000/api/blog-owner/";
     const data = await setupFetch(url);
     return data;
 }
 export async function getAuthorDetails(id) {
+    console.log(id);
     const url = `http://localhost:3000/public/author/${id}`;
     const data = await setupFetch(url, "get");
     return data;

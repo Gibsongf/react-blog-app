@@ -15,7 +15,7 @@ export const Login = ({ setToken }) => {
         e.preventDefault();
         const response = await apiLogin(formData);
         if (response === "login-error") {
-            console.log(response);
+            // console.log(response);
             setInformUser(() => {
                 return {
                     msg: "error",

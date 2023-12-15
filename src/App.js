@@ -12,10 +12,15 @@ const Header = () => {
     return (
         <div className="header">
             <h1>
-                <Link to="/profile" className="back-home">
-                    Blog Editor
+                <Link to="/public" className="back-home">
+                    Explorer
                 </Link>
             </h1>
+            <h3>
+                <Link to="/profile" className="back-home">
+                    Profile
+                </Link>
+            </h3>
         </div>
     );
 };
