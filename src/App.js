@@ -29,7 +29,7 @@ function App() {
         localStorage.setItem("postID", e.target.id);
     };
     const authorInfo = (info) => {
-        localStorage.setItem("author", JSON.stringify(info));
+        localStorage.setItem("UserProfile", JSON.stringify(info));
     };
 
     return (

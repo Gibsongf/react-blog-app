@@ -27,6 +27,7 @@ export const Login = ({ setToken }) => {
 
             if (Object.keys(response).includes("id")) {
                 localStorage.setItem("token", response.token);
+                localStorage.setItem("userID", response.id);
                 setToken(localStorage.getItem("token"));
             }
         }

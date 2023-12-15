@@ -7,7 +7,7 @@ import { DataContext } from "../App";
 
 const AuthorInfo = () => {
     const { first_name, last_name } = JSON.parse(
-        localStorage.getItem("author")
+        localStorage.getItem("UserProfile")
     );
 
     return (
@@ -35,7 +35,7 @@ export const Home = () => {
             }
         };
         const authorInfoSaved = (author) => {
-            const localAuthor = JSON.parse(localStorage.getItem("author"));
+            const localAuthor = JSON.parse(localStorage.getItem("UserProfile"));
             const saveAuthor = () =>
                 authorInfo({
                     first_name: author.first_name,
