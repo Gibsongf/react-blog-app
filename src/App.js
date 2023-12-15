@@ -1,8 +1,8 @@
 import "./styles/App.css";
 import { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import { PostDetails } from "./pages/PostDetails";
-import { Home } from "./pages/Home";
+import { UserPostDetails } from "./pages/UserPostDetails";
+import { UserProfile } from "./pages/UserProfile";
 import { Login } from "./pages/Login";
 
 const Header = () => {
@@ -29,8 +29,8 @@ function App() {
             {!token ? <Login setToken={setToken} /> : ""}
             <Routes>
                 <Route path="profile/*">
-                    <Route index element={<Home />} />
-                    <Route path="post/:id" element={<PostDetails />} />
+                    <Route index element={<UserProfile />} />
+                    <Route path="post/:id" element={<UserPostDetails />} />
                 </Route>
             </Routes>
             <Footer />

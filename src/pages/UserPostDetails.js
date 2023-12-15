@@ -55,7 +55,7 @@ const PostInformation = ({ title, author, text, timestamp }) => {
         </div>
     );
 };
-export const PostDetails = () => {
+export const UserPostDetails = () => {
     const postId = localStorage.getItem("postID");
     const [isEditMode, setEditMode] = useState(false);
     const [currentPost, setCurrentPost] = useState(null);

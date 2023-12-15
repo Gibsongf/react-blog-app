@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { UpdateContext } from "../pages/PostDetails";
+import { UpdateContext } from "../pages/UserPostDetails";
 
 export const TitlePost = ({ handler, value, placeholder }) => {
     if (!value) {

@@ -19,7 +19,7 @@ const AuthorInfo = () => {
     );
 };
 
-export const Home = () => {
+export const UserProfile = () => {
     const [data, setData] = useState(null);
     const [wasUpdated, setWasUpdated] = useState(false);
     useEffect(() => {

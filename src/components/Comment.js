@@ -3,7 +3,7 @@ import { newComment } from "../Api";
 import { ConfirmDeletionForm } from "./Forms";
 import { newContentValidator } from "./FormValidation";
 import { formatDate } from "../utils";
-import { UpdateContext } from "../pages/PostDetails";
+import { UpdateContext } from "../pages/UserPostDetails";
 
 export const NewComment = (props) => {
     const initialState = { user_name: "", comment_text: "" };

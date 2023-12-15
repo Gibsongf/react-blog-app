@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { newPost, updatePost, deleteComment, deletePost } from "../Api";
 import { newContentValidator } from "./FormValidation";
 import { useNavigate } from "react-router-dom";
-import { UpdateContext } from "../pages/PostDetails";
+import { UpdateContext } from "../pages/UserPostDetails";
 import { TitlePost, TextPost, IsPublished, FormPostButton } from "./Inputs";
 const UseForm = (formType, initialState, postId, updateHome) => {
     const { setWasUpdated, changeEditMode } = useContext(UpdateContext);
@@ -100,7 +100,7 @@ export const ConfirmDeletionForm = (props) => {
     };
     const handlePost = async () => {
         await deletePost(postId);
-        navigate("/");
+        navigate("/profile");
     };
     const handleSubmit = (e) => {
         e.preventDefault();
