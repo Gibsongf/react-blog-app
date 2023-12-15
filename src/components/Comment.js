@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { newComment } from "../Api";
 import { ConfirmDeletionForm } from "./Forms";
 import { newContentValidator } from "./FormValidation";
-import { format_date } from "../utils";
+import { formatDate } from "../utils";
 import { UpdateContext } from "../pages/PostDetails";
 
 export const NewComment = (props) => {
@@ -54,12 +54,11 @@ export const PostComment = (props) => {
     const { userName, text, timestamp, commentID } = props;
     const postID = localStorage.getItem("postID");
     const [isDeleteMode, setDeleteMode] = useState(false);
-    const formatted = format_date(timestamp);
 
     return (
         <div className="comment">
             <p className="comment-username">{userName}</p>
-            <p className="comment-timestamp">{formatted}</p>
+            <p className="comment-timestamp">{formatDate(timestamp)}</p>
             <p className="comment-text">{text}</p>
 
             {!isDeleteMode ? (

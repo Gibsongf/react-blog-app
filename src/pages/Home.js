@@ -1,13 +1,13 @@
 import "../styles/App.css";
 import { AllPost } from "../components/Posts";
 import { FormNewPost } from "../components/Forms";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getUserData } from "../Api";
-import { DataContext } from "../App";
+import { saveUserInfo } from "../utils";
 
 const AuthorInfo = () => {
     const { first_name, last_name } = JSON.parse(
-        localStorage.getItem("UserProfile")
+        localStorage.getItem("userProfile")
     );
 
     return (
@@ -20,7 +20,6 @@ const AuthorInfo = () => {
 };
 
 export const Home = () => {
-    const { authorInfo } = useContext(DataContext);
     const [data, setData] = useState(null);
     const [wasUpdated, setWasUpdated] = useState(false);
     useEffect(() => {
@@ -35,9 +34,9 @@ export const Home = () => {
             }
         };
         const authorInfoSaved = (author) => {
-            const localAuthor = JSON.parse(localStorage.getItem("UserProfile"));
+            const localAuthor = JSON.parse(localStorage.getItem("userProfile"));
             const saveAuthor = () =>
-                authorInfo({
+                saveUserInfo({
                     first_name: author.first_name,
                     last_name: author.last_name,
                     user_name: author.user_name,
@@ -52,7 +51,7 @@ export const Home = () => {
         };
 
         fetchData();
-    }, [authorInfo, wasUpdated]);
+    }, [wasUpdated]);
     if (!data) {
         // Data is still being fetched
         return <div>Loading...</div>;

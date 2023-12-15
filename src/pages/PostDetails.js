@@ -3,7 +3,7 @@ import { getPostDetails } from "../Api";
 import { PostEditForm, ConfirmDeletionForm } from "../components/Forms";
 import { PostComment, NewComment } from "../components/Comment";
 import "../styles/PostDetails.css";
-import { format_date } from "../utils";
+import { formatDate } from "../utils";
 
 export const UpdateContext = createContext({
     wasUpdated: false,
@@ -83,7 +83,7 @@ export const PostDetails = () => {
         const fetchData = async () => {
             try {
                 const result = await getPostDetails(postId);
-                const formattedDate = format_date(result.post.timestamp);
+                const formattedDate = formatDate(result.post.timestamp);
                 result.post.timestamp = formattedDate;
                 setCurrentPost(result);
             } catch (error) {

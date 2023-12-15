@@ -1,4 +1,4 @@
-export const format_date = (timestamp) => {
+export const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     const options = {
         year: "numeric",
@@ -9,4 +9,10 @@ export const format_date = (timestamp) => {
     };
     const newDate = date.toLocaleString("en-US", options);
     return newDate;
+};
+export const savePostId = (e) => {
+    localStorage.setItem("postID", e.target.id);
+};
+export const saveUserInfo = (info) => {
+    localStorage.setItem("userProfile", JSON.stringify(info));
 };

@@ -19,18 +19,9 @@ const Header = () => {
 const Footer = () => {
     return <div className="footer"></div>;
 };
-export const DataContext = createContext({
-    savePostId: () => {},
-    authorInfo: () => {},
-});
+
 function App() {
     const [token, setToken] = useState(localStorage.getItem("token"));
-    const savePostId = (e) => {
-        localStorage.setItem("postID", e.target.id);
-    };
-    const authorInfo = (info) => {
-        localStorage.setItem("UserProfile", JSON.stringify(info));
-    };
 
     return (
         <div className="App">
@@ -38,12 +29,10 @@ function App() {
             {!token ? (
                 <Login setToken={setToken} />
             ) : (
-                <DataContext.Provider value={{ savePostId, authorInfo }}>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/post/:id" element={<PostDetails />} />
-                    </Routes>
-                </DataContext.Provider>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/post/:id" element={<PostDetails />} />
+                </Routes>
             )}
             <Footer />
         </div>
