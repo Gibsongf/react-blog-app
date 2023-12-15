@@ -25,7 +25,7 @@ export const Home = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("fetch data");
+                // console.log("fetch data");
                 const result = await getUserData();
                 authorInfoSaved(result.author);
                 setData(result);

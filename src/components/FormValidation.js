@@ -14,7 +14,6 @@ const wholeFormValidator = (e) => {
             checkElement(e);
         });
     });
-    console.log(valid);
     if (valid.includes(false)) {
         return false;
     } else {
