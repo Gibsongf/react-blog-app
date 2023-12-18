@@ -26,9 +26,9 @@ const Post = ({ title, author, timestamp, text, id }) => {
                 </h2>
             </NavLink>
             <NavLink to={authorLink} onClick={saveAuthorId}>
-                <h4 id={author._id} className="all-post-author-link">
+                <h3 id={author._id} className="all-post-author-link">
                     {author.first_name} {author.last_name}
-                </h4>
+                </h3>
             </NavLink>
 
             <h5>{formatDate(timestamp)}</h5>
