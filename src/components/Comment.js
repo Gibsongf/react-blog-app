@@ -13,7 +13,7 @@ export const NewComment = () => {
     const postId = localStorage.getItem("postID");
     const { setWasUpdated } = useContext(UserUpdateContext);
     const { setUpdated } = useContext(PublicUpdateContext);
-    const location = useLocation().pathname.split("/")[1];
+    const urlLocation = useLocation().pathname.split("/")[1];
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         newContentValidator(e);
@@ -23,7 +23,7 @@ export const NewComment = () => {
         e.preventDefault();
         const isValidData = newContentValidator(e.target.parentElement);
         if (isValidData) {
-            if (location === "public") {
+            if (urlLocation === "public") {
                 await postComment(postId, formData, true);
             } else {
                 await postComment(postId, formData);

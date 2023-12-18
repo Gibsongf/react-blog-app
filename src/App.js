@@ -72,7 +72,6 @@ function App() {
     return (
         <div className="App">
             <Header guest={guest} />
-            {/* {!token ? redirectLogin() : ""} */}
             <Routes>
                 <Route
                     path="login"

@@ -34,11 +34,9 @@ const UseForm = (formType, initialState, postId, updateHome) => {
 // New/Edit form content
 export const PostEditForm = (props) => {
     const { title, text, published, _id } = props;
-
-    const initialState = { title, text, published };
     const { formData, handleInputChange, handleSubmit } = UseForm(
         "edit",
-        initialState,
+        { title, text, published },
         _id
     );
 
