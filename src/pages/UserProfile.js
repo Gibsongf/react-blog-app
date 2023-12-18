@@ -4,6 +4,7 @@ import { FormNewPost } from "../components/Forms";
 import { useEffect, useState } from "react";
 import { getUserData } from "../Api";
 import { saveUserInfo } from "../utils";
+import { Loading } from "../components/Loading";
 
 const AuthorInfo = () => {
     const { first_name, last_name } = JSON.parse(
@@ -26,7 +27,6 @@ export const UserProfile = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // console.log("fetch data");
                 const result = await getUserData();
                 authorInfoSaved(result.author);
                 setData(result);
@@ -56,7 +56,7 @@ export const UserProfile = () => {
     }, [wasUpdated, token]);
     if (!data) {
         // Data is still being fetched
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     return (

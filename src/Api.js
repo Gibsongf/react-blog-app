@@ -1,6 +1,5 @@
 import { loginData } from "./user";
 
-//Should be '/login' login page instead of one function
 export async function apiLogin() {
     const url = "http://localhost:3000/users/login";
 
@@ -15,7 +14,6 @@ export async function apiLogin() {
 
         if (response.status === 200) {
             const data = await response.json();
-            console.log("Login successfully");
             return data;
         } else {
             throw new Error();
@@ -25,12 +23,6 @@ export async function apiLogin() {
     }
 }
 async function setupFetch(url, reqMethod = "get", body) {
-    // if (!localStorage["token"]) {
-    //     const data = await apiLogin();
-    //     localStorage.setItem("token", data.token);
-    // }
-    // const data = await apiLogin();
-    // localStorage.setItem("token", data.token);
     const reqConfig = {
         method: reqMethod,
         headers: {

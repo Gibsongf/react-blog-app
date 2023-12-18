@@ -5,6 +5,7 @@ import { PostComment, NewComment } from "../components/Comment";
 import "../styles/PostDetails.css";
 import { formatDate } from "../utils";
 import { Link } from "react-router-dom";
+import { Loading } from "../components/Loading";
 
 export const UserUpdateContext = createContext({
     wasUpdated: false,
@@ -98,7 +99,8 @@ export const UserPostDetails = () => {
 
     if (!currentPost) {
         // Data is still being fetched
-        return <div>Loading...</div>;
+
+        return <Loading />;
     }
     return (
         <div className="post-content">

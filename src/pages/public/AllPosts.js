@@ -39,11 +39,9 @@ const Post = ({ title, author, timestamp, text, id }) => {
 
 export const AllPublicPost = () => {
     const [data, setData] = useState(null);
-    // const [wasUpdated, setWasUpdated] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
-            // console.log("Fetching data");
             try {
                 const result = await getIndexData();
                 setData(() => result);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiLogin } from "../Api";
-import ReactLoading from "react-loading";
 import { Link, useNavigate } from "react-router-dom";
+import { Loading } from "../components/Loading";
 
 export const Login = ({ setToken, setGuest }) => {
     const nav = useNavigate();
@@ -24,7 +24,6 @@ export const Login = ({ setToken, setGuest }) => {
         e.preventDefault();
         const response = await apiLogin(formData);
         if (response === "login-error") {
-            // console.log(response);
             setInformUser(() => {
                 return {
                     msg: "error",
@@ -42,20 +41,14 @@ export const Login = ({ setToken, setGuest }) => {
             nav("/profile");
         }
     };
+
     return (
         <>
             <form method="post" onSubmit={onSubmit} className="login-form">
                 {informUser.msg === "error" && (
                     <p className="error-login">{informUser.text}</p>
                 )}
-                {informUser.msg === "success" && (
-                    <ReactLoading
-                        type={"spin"}
-                        color={"white"}
-                        height={"5%"}
-                        width={"5%"}
-                    />
-                )}
+                {informUser.msg === "success" && <Loading />}
                 <label htmlFor="username">User Name</label>
                 <input
                     id="username"

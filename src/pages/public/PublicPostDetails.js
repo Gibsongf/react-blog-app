@@ -1,9 +1,9 @@
 import { useEffect, useState, createContext } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-// import { Loading } from "../components/Loading";
+import { NavLink } from "react-router-dom";
 import { PostComment, NewComment } from "../../components/Comment";
 import { getPostDetails } from "../../Api";
 import { formatDate } from "../../utils";
+import { Loading } from "../../components/Loading";
 // import "src/styles/PostDetails.css";
 const PostInformation = ({ title, authorInfo, text, timestamp }) => {
     const fullName = `${authorInfo.first_name} ${authorInfo.last_name}`;
@@ -64,7 +64,6 @@ export const PublicPostDetails = () => {
             try {
                 const result = await getPostDetails(postID, true);
                 result.post.timestamp = formatDate(result.post.timestamp);
-                // console.log("public post details");
                 setCurrentPost(() => result.post);
                 setAuthor(() => result.post.author);
                 setPostComments(() => result.comment);
@@ -77,7 +76,7 @@ export const PublicPostDetails = () => {
 
     if (!currentPost) {
         // Data is still being fetched
-        return <div>Load</div>; //<Loading />;
+        return <Loading />;
     }
     return (
         <div className="post-content">
