@@ -1,61 +1,96 @@
 import "./styles/App.css";
-import { useState } from "react";
-import { Routes, Route, NavLink } from "react-router-dom";
-import { PostDetails } from "./pages/PostDetails";
-import { Home } from "./pages/Home";
-import { FormNewPost } from "./components/Forms";
+import { useEffect, useState } from "react";
+import {
+    Routes,
+    Route,
+    Link,
+    useLocation,
+    useNavigate,
+} from "react-router-dom";
+import { UserPostDetails } from "./pages/UserPostDetails";
+import { UserProfile } from "./pages/UserProfile";
+import { Login } from "./pages/Login";
+import { AllPublicPost } from "./pages/public/AllPosts";
+import { PublicPostDetails } from "./pages/public/PublicPostDetails";
+import { PublicAuthorDetails } from "./pages/public/PublicAuthorDetails";
+import { headerInfo } from "./utils";
+import Icon from "@mdi/react";
+import { mdiAccountCircleOutline } from "@mdi/js";
 
 const Header = () => {
+    let token = localStorage.getItem("token");
+    const location = useLocation().pathname.split("/")[1];
+    const h3 = headerInfo();
+    const AccountIcon = () => {
+        return (
+            <Link to={h3.url} className="back-home">
+                <Icon
+                    path={mdiAccountCircleOutline}
+                    title="User Profile"
+                    size={2}
+                    color="white"
+                />
+            </Link>
+        );
+    };
     return (
         <div className="header">
-            <NavLink to="/" className="back-home">
-                <h1>Blog Editor</h1>
-            </NavLink>
+            <h1>
+                <Link to="/public" className="back-home">
+                    Blog
+                </Link>
+            </h1>
+            {!token && location === "public" && (
+                <Link to="/login">
+                    <button className="login-btn-header">Login</button>
+                </Link>
+            )}
+            {token && <AccountIcon />}
         </div>
     );
 };
+const Footer = () => {
+    return <div className="footer"></div>;
+};
 
 function App() {
-    const [postId, setPostId] = useState();
-    const [wasUpdated, setWasUpdated] = useState(false);
-
-    const savePostId = (e) => {
-        setPostId(e.target.id);
+    const nav = useNavigate();
+    const location = useLocation();
+    const [guest, setGuest] = useState(false);
+    const [token, setToken] = useState(localStorage.getItem("token"));
+    const redirectLogin = () => {
+        const currentUrl = location.pathname.split("/")[1];
+        if (currentUrl !== "login" && !guest) {
+            nav("login");
+        }
     };
-
+    useEffect(() => {
+        if (!token && !guest) {
+            redirectLogin();
+        }
+    }, []);
     return (
         <div className="App">
-            <Header />
+            <Header guest={guest} />
             <Routes>
                 <Route
-                    path="/"
-                    element={
-                        <Home
-                            savePostId={savePostId}
-                            wasUpdated={wasUpdated}
-                            setWasUpdated={setWasUpdated}
-                        />
-                    }
+                    path="login"
+                    element={<Login setToken={setToken} setGuest={setGuest} />}
                 />
-                <Route
-                    path="/post/:id"
-                    element={
-                        <PostDetails
-                            postId={postId}
-                            setHomeUpdate={setWasUpdated}
-                        />
-                    }
-                />
-                <Route
-                    path="/submit"
-                    element={
-                        <FormNewPost
-                            wasUpdated={wasUpdated}
-                            setWasUpdated={setWasUpdated}
-                        />
-                    }
-                />
+                <Route path="profile/*">
+                    <Route index element={<UserProfile />} />
+                    <Route path="post/:id" element={<UserPostDetails />} />
+                </Route>
+                <Route path="public/*">
+                    <Route index element={<AllPublicPost />} />
+                    <Route path="post/:id" element={<PublicPostDetails />} />
+                    <Route
+                        path="author/:id"
+                        element={<PublicAuthorDetails />}
+                    />
+                </Route>
             </Routes>
+            <Footer />
         </div>
     );
 }

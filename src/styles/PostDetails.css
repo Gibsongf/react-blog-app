@@ -1,9 +1,12 @@
 /* Post */
 .post-content {
-  grid-column: 2;
+  max-width: 70%;
   display: flex;
-  flex-direction: column;
   gap: 20px;
+  grid-column: 2;
+  justify-self: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .post-details {
@@ -92,4 +95,10 @@ form>button:focus,
 
 .invalid:focus {
   outline: red;
+}
+
+@media screen and (max-width: 1000px) {
+  .post-content {
+    max-width: 100%;
+  }
 }

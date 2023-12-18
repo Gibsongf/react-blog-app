@@ -1,11 +1,18 @@
 const wholeFormValidator = (e) => {
-    const formIds = ["text", "title", "user_name", "comment_text"];
-    const valid = Array.from(e.children).map((el) => {
-        if (formIds.includes(el.id)) {
-            return newContentValidator(el);
-        } else {
-            return el.id;
+    const formIds = ["post-text", "post-title", "user_name", "comment_text"];
+    const valid = [];
+    const checkElement = (element) => {
+        if (formIds.includes(element.id)) {
+            valid.push(newContentValidator(element));
         }
+    };
+    Array.from(e.children).forEach((el) => {
+        if (el.children.length < 1 && el.hasAttribute("id")) {
+            checkElement(el);
+        }
+        Array.from(el.children).forEach((e) => {
+            checkElement(e);
+        });
     });
     if (valid.includes(false)) {
         return false;
@@ -15,11 +22,11 @@ const wholeFormValidator = (e) => {
 };
 export const newContentValidator = (e) => {
     const minLen = { text: 10, title: 3, user_name: 4, comment_text: 4 };
+
     let el = e;
     if (e.type === "change") {
         el = e.target;
     }
-
     if (e.nodeName === "FORM") {
         return wholeFormValidator(e);
     }

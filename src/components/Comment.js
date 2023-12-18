@@ -1,13 +1,19 @@
-import { useState } from "react";
-import { newComment } from "../Api";
-import { ConfirmCommentDeletion } from "./Forms";
+import { useContext, useState } from "react";
+import { postComment } from "../Api";
+import { ConfirmDeletionForm } from "./Forms";
 import { newContentValidator } from "./FormValidation";
+import { formatDate } from "../utils";
+import { UserUpdateContext } from "../pages/UserPostDetails";
+import { useLocation } from "react-router-dom";
+import { PublicUpdateContext } from "../pages/public/PublicPostDetails";
 
-export const NewComment = (props) => {
+export const NewComment = () => {
     const initialState = { user_name: "", comment_text: "" };
     const [formData, setFormData] = useState(initialState);
-    // const [validData, setValidData] = useState();
-
+    const postId = localStorage.getItem("postID");
+    const { setWasUpdated } = useContext(UserUpdateContext);
+    const { setUpdated } = useContext(PublicUpdateContext);
+    const urlLocation = useLocation().pathname.split("/")[1];
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         newContentValidator(e);
@@ -17,8 +23,13 @@ export const NewComment = (props) => {
         e.preventDefault();
         const isValidData = newContentValidator(e.target.parentElement);
         if (isValidData) {
-            await newComment(props.postID, formData);
-            props.setWasUpdated(!props.wasUpdated);
+            if (urlLocation === "public") {
+                await postComment(postId, formData, true);
+            } else {
+                await postComment(postId, formData);
+            }
+            setWasUpdated((e) => !e);
+            setUpdated((e) => !e);
             e.target.parentElement.reset();
         }
     };
@@ -46,39 +57,37 @@ export const NewComment = (props) => {
         </form>
     );
 };
+const ConditionalBtn = ({ setDeleteMode }) => {
+    const location = useLocation();
+    const currentUrl = location.pathname.split("/")[1];
+    if (currentUrl === "public") {
+        return;
+    }
+    return (
+        <button onClick={() => setDeleteMode((e) => !e)} type="button">
+            Delete
+        </button>
+    );
+};
 export const PostComment = (props) => {
-    const { userName, text, timestamp, postID, commentID } = props;
+    const { userName, text, timestamp, commentID } = props;
+    const postID = localStorage.getItem("postID");
     const [isDeleteMode, setDeleteMode] = useState(false);
-    const date = new Date(timestamp);
-    const options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-    };
-    const format_date = date.toLocaleString("en-US", options);
+
     return (
         <div className="comment">
             <p className="comment-username">{userName}</p>
-            <p className="comment-timestamp">{format_date}</p>
+            <p className="comment-timestamp">{formatDate(timestamp)}</p>
             <p className="comment-text">{text}</p>
-
             {!isDeleteMode ? (
-                <button
-                    onClick={() => setDeleteMode(!isDeleteMode)}
-                    type="button"
-                >
-                    Delete
-                </button>
+                <ConditionalBtn setDeleteMode={setDeleteMode} />
             ) : (
-                <ConfirmCommentDeletion
+                <ConfirmDeletionForm
+                    warningText={"Do you really want to delete this Comment?2"}
                     setDeleteMode={setDeleteMode}
-                    isDeleteMode={isDeleteMode}
                     postID={postID}
                     commentID={commentID}
-                    wasUpdated={props.wasUpdated}
-                    setWasUpdated={props.setWasUpdated}
+                    deleteActionType={"Comment"}
                 />
             )}
         </div>
