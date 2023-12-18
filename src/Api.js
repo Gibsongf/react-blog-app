@@ -74,13 +74,11 @@ export async function getIndexData() {
     }
 }
 export async function getUserData() {
-    // console.log(process.env);
-    const url = "http://localhost:3000/api/blog-owner/";
+    const url = "http://localhost:3000/api/user-blog/";
     const data = await setupFetch(url);
     return data;
 }
 export async function getAuthorDetails(id) {
-    console.log(id);
     const url = `http://localhost:3000/public/author/${id}`;
     const data = await setupFetch(url, "get");
     return data;
@@ -96,8 +94,12 @@ export async function updatePost(id, formData) {
     const data = await setupFetch(url, "put", formData);
     return data;
 }
-export async function getPostDetails(id) {
-    const url = `http://localhost:3000/api/post/${id}`;
+export async function getPostDetails(id, isPublic) {
+    let call = "api";
+    if (isPublic) {
+        call = "public";
+    }
+    const url = `http://localhost:3000/${call}/post/${id}`;
     const data = await setupFetch(url, "get");
     return data;
 }
@@ -113,8 +115,12 @@ export async function deleteComment(postID, commentID) {
     return data;
 }
 
-export async function newComment(postID, formData) {
-    const url = `http://localhost:3000/api/post/${postID}/comment`;
+export async function postComment(postID, formData, isPublic) {
+    let call = "api";
+    if (isPublic) {
+        call = "public";
+    }
+    const url = `http://localhost:3000/${call}/post/${postID}/comment`;
     const data = await setupFetch(url, "post", formData);
     return data;
 }

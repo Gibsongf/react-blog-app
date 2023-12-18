@@ -62,7 +62,7 @@ export const PublicPostDetails = () => {
         const fetchData = async () => {
             const postID = localStorage["postID"];
             try {
-                const result = await getPostDetails(postID);
+                const result = await getPostDetails(postID, true);
                 result.post.timestamp = formatDate(result.post.timestamp);
                 // console.log("public post details");
                 setCurrentPost(() => result.post);

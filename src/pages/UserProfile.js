@@ -21,6 +21,7 @@ const AuthorInfo = () => {
 
 export const UserProfile = () => {
     const [data, setData] = useState(null);
+    const token = localStorage.getItem("token");
     const [wasUpdated, setWasUpdated] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
@@ -49,9 +50,10 @@ export const UserProfile = () => {
                 }
             }
         };
-
-        fetchData();
-    }, [wasUpdated]);
+        if (token) {
+            fetchData();
+        }
+    }, [wasUpdated, token]);
     if (!data) {
         // Data is still being fetched
         return <div>Loading...</div>;

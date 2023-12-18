@@ -19,3 +19,19 @@ export const savePostId = (e) => {
 export const saveUserInfo = (info) => {
     localStorage.setItem("userProfile", JSON.stringify(info));
 };
+export const headerInfo = () => {
+    let token = localStorage.getItem("token");
+    const profile = {
+        text: "Profile",
+        url: "/profile",
+    };
+    const login = {
+        text: "Login",
+        url: "/login",
+    };
+    if (token) {
+        return profile;
+    } else {
+        return login;
+    }
+};

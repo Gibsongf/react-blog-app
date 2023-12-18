@@ -24,6 +24,9 @@ body {
   grid-column: 1/4;
   text-align: center;
   background-color: rgb(30, 30, 30);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .footer {
@@ -137,16 +140,19 @@ body {
 }
 
 .login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-self: center;
   border: 1px solid white;
   border-top: 30px solid white;
   border-radius: 15px;
   padding: 25px;
   grid-column: 2;
+  max-width: 25vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  justify-self: center;
   gap: 10px;
+
 }
 
 .login-btn button {

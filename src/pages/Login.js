@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { apiLogin } from "../Api";
 import ReactLoading from "react-loading";
+import { Link, useNavigate } from "react-router-dom";
 
-export const Login = ({ setToken }) => {
+export const Login = ({ setToken, setGuest }) => {
+    const nav = useNavigate();
     const ini = { username: "", password: "" };
     const [informUser, setInformUser] = useState({ msg: "", text: "" });
     const [formData, setFormData] = useState(ini);
@@ -11,6 +13,13 @@ export const Login = ({ setToken }) => {
             return { ...prev, [e.target.name]: e.target.value };
         });
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            nav("/profile");
+        }
+    }, [nav]);
     const onSubmit = async (e) => {
         e.preventDefault();
         const response = await apiLogin(formData);
@@ -30,6 +39,7 @@ export const Login = ({ setToken }) => {
                 localStorage.setItem("userID", response.id);
                 setToken(localStorage.getItem("token"));
             }
+            nav("/profile");
         }
     };
     return (
@@ -66,9 +76,9 @@ export const Login = ({ setToken }) => {
                 <div className="error-msg"></div>
 
                 <div className="login-btn">
-                    <button type="button">
-                        <a href="http://">Guest</a>
-                    </button>
+                    <Link to="/public" onClick={() => setGuest(true)}>
+                        <button type="button">Guest</button>
+                    </Link>
                     <button type="submit">Enter</button>
                 </div>
             </form>

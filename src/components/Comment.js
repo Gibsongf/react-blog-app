@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { newComment } from "../Api";
+import { postComment } from "../Api";
 import { ConfirmDeletionForm } from "./Forms";
 import { newContentValidator } from "./FormValidation";
 import { formatDate } from "../utils";
@@ -10,11 +10,10 @@ import { PublicUpdateContext } from "../pages/public/PublicPostDetails";
 export const NewComment = () => {
     const initialState = { user_name: "", comment_text: "" };
     const [formData, setFormData] = useState(initialState);
-    // const [validData, setValidData] = useState();
     const postId = localStorage.getItem("postID");
     const { setWasUpdated } = useContext(UserUpdateContext);
     const { setUpdated } = useContext(PublicUpdateContext);
-
+    const location = useLocation().pathname.split("/")[1];
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         newContentValidator(e);
@@ -24,7 +23,11 @@ export const NewComment = () => {
         e.preventDefault();
         const isValidData = newContentValidator(e.target.parentElement);
         if (isValidData) {
-            await newComment(postId, formData);
+            if (location === "public") {
+                await postComment(postId, formData, true);
+            } else {
+                await postComment(postId, formData);
+            }
             setWasUpdated((e) => !e);
             setUpdated((e) => !e);
             e.target.parentElement.reset();
