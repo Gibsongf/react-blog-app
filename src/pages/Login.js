@@ -56,8 +56,9 @@ export const Login = ({ setToken, setGuest }) => {
                         width={"5%"}
                     />
                 )}
-                <label htmlFor="user-name">User Name</label>
+                <label htmlFor="username">User Name</label>
                 <input
+                    id="username"
                     value={formData.username}
                     onChange={onChange}
                     name="username"
@@ -75,7 +76,7 @@ export const Login = ({ setToken, setGuest }) => {
                 />
                 <div className="error-msg"></div>
 
-                <div className="login-btn">
+                <div className="login-btn-container">
                     <Link to="/public" onClick={() => setGuest(true)}>
                         <button type="button">Guest</button>
                     </Link>

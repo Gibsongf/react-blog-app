@@ -41,11 +41,9 @@ const Header = () => {
                 </Link>
             </h1>
             {!token && location === "public" && (
-                <h3>
-                    <Link to="/login" className="back-home">
-                        Login
-                    </Link>
-                </h3>
+                <Link to="/login">
+                    <button className="login-btn-header">Login</button>
+                </Link>
             )}
             {token && <AccountIcon />}
         </div>

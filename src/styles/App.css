@@ -29,6 +29,16 @@ body {
   justify-content: space-around;
 }
 
+.login-btn-header {
+  width: 6vw;
+  padding: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
 .footer {
   grid-column: 1/4;
   background-color: rgb(30, 30, 30);
@@ -155,7 +165,7 @@ body {
 
 }
 
-.login-btn button {
+.login-btn-container button {
   background-color: #007bff;
   color: white;
   padding: 10px 20px;
@@ -166,7 +176,7 @@ body {
   text-align: center;
 }
 
-.login-btn button:hover {
+.login-btn-container button:hover {
   background-color: #0056b3;
 }
 
@@ -189,4 +199,13 @@ a:link {
   .App {
     grid-template-columns: 0.1fr 1fr 0.1fr;
   }
+
+  .login-btn-container {
+    display: flex;
+  }
+
+  .login-btn-header {
+    width: 100px;
+  }
+
 }
