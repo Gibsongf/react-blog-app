@@ -36,12 +36,12 @@ const Header = () => {
     return (
         <div className="header">
             <h1>
-                <NavLink to="/public" className="back-home">
+                <NavLink to="react-blog-app/public" className="back-home">
                     Blog
                 </NavLink>
             </h1>
             {!token && location === "public" && (
-                <NavLink to="/login">
+                <NavLink to="react-blog-app/login">
                     <button className="login-btn-header">Login</button>
                 </NavLink>
             )}
