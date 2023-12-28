@@ -1,6 +1,7 @@
 # Blog App
 This project is part of [The Odin Project](https://www.theodinproject.com/), specifically the Full Stack JavaScript path.<br>
-Visit the REST API repo for this project [here](https://github.com/Gibsongf/express-blog-api)
+Visit the REST API repo for this project [here](https://github.com/Gibsongf/express-blog-api)<br>
+[Live Preview](https://gibsongf.github.io/react-blog-app/)
 ## Features
 
 - Create new posts: Write and publish your blog posts
