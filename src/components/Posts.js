@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { formatDate, savePostId } from "../utils";
 
 const Post = ({ title, timestamp, text, id }) => {
@@ -10,11 +10,11 @@ const Post = ({ title, timestamp, text, id }) => {
     }
     return (
         <div className="post">
-            <Link to={postLink} onClick={savePostId}>
+            <NavLink to={postLink} onClick={savePostId}>
                 <h2 className="title" id={id}>
                     {title}
                 </h2>
-            </Link>
+            </NavLink>
             <h5>{formatDate(timestamp)}</h5>
             <p>{text}</p>
         </div>

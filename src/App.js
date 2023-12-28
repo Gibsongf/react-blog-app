@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import {
     Routes,
     Route,
-    Link,
     useLocation,
     useNavigate,
+    NavLink,
 } from "react-router-dom";
 import { UserPostDetails } from "./pages/UserPostDetails";
 import { UserProfile } from "./pages/UserProfile";
@@ -23,27 +23,27 @@ const Header = () => {
     const h3 = headerInfo();
     const AccountIcon = () => {
         return (
-            <Link to={h3.url} className="back-home">
+            <NavLink to={h3.url} className="back-home">
                 <Icon
                     path={mdiAccountCircleOutline}
                     title="User Profile"
                     size={2}
                     color="white"
                 />
-            </Link>
+            </NavLink>
         );
     };
     return (
         <div className="header">
             <h1>
-                <Link to="/public/" className="back-home">
+                <NavLink to="/public" className="back-home">
                     Blog
-                </Link>
+                </NavLink>
             </h1>
             {!token && location === "public" && (
-                <Link to="/login/">
+                <NavLink to="/login">
                     <button className="login-btn-header">Login</button>
-                </Link>
+                </NavLink>
             )}
             {token && <AccountIcon />}
         </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiLogin } from "../Api";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Loading } from "../components/Loading";
 
 export const Login = ({ setToken, setGuest }) => {
@@ -70,9 +70,9 @@ export const Login = ({ setToken, setGuest }) => {
                 <div className="error-msg"></div>
 
                 <div className="login-btn-container">
-                    <Link to="/public" onClick={() => setGuest(true)}>
+                    <NavLink to="/public" onClick={() => setGuest(true)}>
                         <button type="button">Guest</button>
-                    </Link>
+                    </NavLink>
                     <button type="submit">Enter</button>
                 </div>
             </form>
