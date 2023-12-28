@@ -69,6 +69,9 @@ function App() {
         if (!token && !guest) {
             redirectLogin();
         }
+        if (token) {
+            nav("react-blog-app/public");
+        }
     }, []);
     return (
         <div className="App">
