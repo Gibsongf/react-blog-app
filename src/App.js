@@ -74,7 +74,7 @@ function App() {
             <Header guest={guest} />
             <Routes>
                 <Route
-                    path="login"
+                    path="react-blog-app/login"
                     element={<Login setToken={setToken} setGuest={setGuest} />}
                 />
                 <Route path="react-blog-app/profile/*">
