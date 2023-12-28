@@ -19,7 +19,7 @@ import { mdiAccountCircleOutline } from "@mdi/js";
 
 const Header = () => {
     let token = localStorage.getItem("token");
-    const location = useLocation().pathname.split("/")[1];
+    const location = useLocation().pathname.split("/")[2];
     const h3 = headerInfo();
     const AccountIcon = () => {
         return (
