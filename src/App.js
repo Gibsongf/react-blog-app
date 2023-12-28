@@ -61,7 +61,7 @@ function App() {
 
     useEffect(() => {
         const redirectLogin = () => {
-            const currentUrl = location.pathname.split("/")[1];
+            const currentUrl = location.pathname.split("/")[2];
             if (currentUrl !== "login" && !guest) {
                 nav("react-blog-app/login");
             }

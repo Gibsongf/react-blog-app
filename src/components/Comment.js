@@ -59,7 +59,7 @@ export const NewComment = () => {
 };
 const ConditionalBtn = ({ setDeleteMode }) => {
     const location = useLocation();
-    const currentUrl = location.pathname.split("/")[1];
+    const currentUrl = location.pathname.split("/")[2];
     if (currentUrl === "public") {
         return;
     }
