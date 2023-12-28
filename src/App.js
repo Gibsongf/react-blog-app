@@ -36,12 +36,12 @@ const Header = () => {
     return (
         <div className="header">
             <h1>
-                <NavLink to="/public" className="back-home">
+                <NavLink to="react-blog-app/public" className="back-home">
                     Blog
                 </NavLink>
             </h1>
             {!token && location === "public" && (
-                <NavLink to="/login">
+                <NavLink to="react-blog-app/login">
                     <button className="login-btn-header">Login</button>
                 </NavLink>
             )}
@@ -58,36 +58,44 @@ function App() {
     const location = useLocation();
     const [guest, setGuest] = useState(false);
     const [token, setToken] = useState(localStorage.getItem("token"));
-    const redirectLogin = () => {
-        const currentUrl = location.pathname.split("/")[1];
-        if (currentUrl !== "login" && !guest) {
-            nav("/login");
-        }
-    };
+
     useEffect(() => {
+        const redirectLogin = () => {
+            const currentUrl = location.pathname.split("/")[1];
+            if (currentUrl !== "login" && !guest) {
+                nav("react-blog-app/login");
+            }
+        };
         if (!token && !guest) {
             redirectLogin();
         }
-    });
+    }, []);
     return (
         <div className="App">
             <Header guest={guest} />
             <Routes>
-                <Route
-                    path="login"
-                    element={<Login setToken={setToken} setGuest={setGuest} />}
-                />
-                <Route path="profile/*">
-                    <Route index element={<UserProfile />} />
-                    <Route path="post/:id" element={<UserPostDetails />} />
-                </Route>
-                <Route path="public/*">
-                    <Route index element={<AllPublicPost />} />
-                    <Route path="post/:id" element={<PublicPostDetails />} />
+                <Route path="react-blog-app/*">
                     <Route
-                        path="author/:id"
-                        element={<PublicAuthorDetails />}
+                        path="login"
+                        element={
+                            <Login setToken={setToken} setGuest={setGuest} />
+                        }
                     />
+                    <Route path="profile/*">
+                        <Route index element={<UserProfile />} />
+                        <Route path="post/:id" element={<UserPostDetails />} />
+                    </Route>
+                    <Route path="public/*">
+                        <Route index element={<AllPublicPost />} />
+                        <Route
+                            path="post/:id"
+                            element={<PublicPostDetails />}
+                        />
+                        <Route
+                            path="author/:id"
+                            element={<PublicAuthorDetails />}
+                        />
+                    </Route>
                 </Route>
             </Routes>
             <Footer />

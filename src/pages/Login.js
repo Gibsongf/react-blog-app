@@ -17,7 +17,7 @@ export const Login = ({ setToken, setGuest }) => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
-            nav("/profile");
+            nav("/react-blog-app/profile");
         }
     }, [nav]);
     const onSubmit = async (e) => {
@@ -38,7 +38,7 @@ export const Login = ({ setToken, setGuest }) => {
                 localStorage.setItem("userID", response.id);
                 setToken(localStorage.getItem("token"));
             }
-            nav("/profile");
+            nav("/react-blog-app/profile");
         }
     };
 
@@ -70,7 +70,10 @@ export const Login = ({ setToken, setGuest }) => {
                 <div className="error-msg"></div>
 
                 <div className="login-btn-container">
-                    <NavLink to="/public" onClick={() => setGuest(true)}>
+                    <NavLink
+                        to="/react-blog-app/public"
+                        onClick={() => setGuest(true)}
+                    >
                         <button type="button">Guest</button>
                     </NavLink>
                     <button type="submit">Enter</button>
