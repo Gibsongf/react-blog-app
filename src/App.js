@@ -68,7 +68,7 @@ function App() {
         if (!token && !guest) {
             redirectLogin();
         }
-    }, []);
+    });
     return (
         <div className="App">
             <Header guest={guest} />
