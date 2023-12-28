@@ -36,12 +36,12 @@ const Header = () => {
     return (
         <div className="header">
             <h1>
-                <Link to="/public" className="back-home">
+                <Link to="/public/" className="back-home">
                     Blog
                 </Link>
             </h1>
             {!token && location === "public" && (
-                <Link to="/login">
+                <Link to="/login/">
                     <button className="login-btn-header">Login</button>
                 </Link>
             )}
@@ -61,7 +61,7 @@ function App() {
     const redirectLogin = () => {
         const currentUrl = location.pathname.split("/")[1];
         if (currentUrl !== "login" && !guest) {
-            nav("login");
+            nav("/login");
         }
     };
     useEffect(() => {
