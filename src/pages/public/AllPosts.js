@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { formatDate, savePostId } from "../../utils";
 import { useEffect, useState } from "react";
 import { getIndexData } from "../../Api";
+import { Loading } from "../../components/Loading";
 
 const Post = ({ title, author, timestamp, text, id }) => {
     let authorLink = `author/${author._id}`;
@@ -52,6 +53,9 @@ export const AllPublicPost = () => {
 
         fetchData();
     }, []);
+    if (!data) {
+        return <Loading />;
+    }
     return (
         <div className="post-content">
             {data?.allPost.map((post) => {

@@ -7,6 +7,7 @@ export const Loading = () => {
             color={"white"}
             height={"5%"}
             width={"5%"}
+            className="loading"
         />
     );
 };
