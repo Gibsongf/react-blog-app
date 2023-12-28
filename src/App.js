@@ -36,12 +36,12 @@ const Header = () => {
     return (
         <div className="header">
             <h1>
-                <NavLink to="react-blog-app/public" className="back-home">
+                <NavLink to="/public" className="back-home">
                     Blog
                 </NavLink>
             </h1>
             {!token && location === "public" && (
-                <NavLink to="react-blog-app/login">
+                <NavLink to="/login">
                     <button className="login-btn-header">Login</button>
                 </NavLink>
             )}
@@ -61,7 +61,7 @@ function App() {
     const redirectLogin = () => {
         const currentUrl = location.pathname.split("/")[1];
         if (currentUrl !== "login" && !guest) {
-            nav("react-blog-app/login");
+            nav("/login");
         }
     };
     useEffect(() => {
@@ -74,14 +74,14 @@ function App() {
             <Header guest={guest} />
             <Routes>
                 <Route
-                    path="react-blog-app/login"
+                    path="login"
                     element={<Login setToken={setToken} setGuest={setGuest} />}
                 />
-                <Route path="react-blog-app/profile/*">
+                <Route path="profile/*">
                     <Route index element={<UserProfile />} />
                     <Route path="post/:id" element={<UserPostDetails />} />
                 </Route>
-                <Route path="react-blog-app/public/*">
+                <Route path="public/*">
                     <Route index element={<AllPublicPost />} />
                     <Route path="post/:id" element={<PublicPostDetails />} />
                     <Route
