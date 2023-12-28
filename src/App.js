@@ -61,7 +61,7 @@ function App() {
     const redirectLogin = () => {
         const currentUrl = location.pathname.split("/")[1];
         if (currentUrl !== "login" && !guest) {
-            nav("/login");
+            nav("react-blog-app/login");
         }
     };
     useEffect(() => {
@@ -77,11 +77,11 @@ function App() {
                     path="login"
                     element={<Login setToken={setToken} setGuest={setGuest} />}
                 />
-                <Route path="profile/*">
+                <Route path="react-blog-app/profile/*">
                     <Route index element={<UserProfile />} />
                     <Route path="post/:id" element={<UserPostDetails />} />
                 </Route>
-                <Route path="public/*">
+                <Route path="react-blog-app/public/*">
                     <Route index element={<AllPublicPost />} />
                     <Route path="post/:id" element={<PublicPostDetails />} />
                     <Route
