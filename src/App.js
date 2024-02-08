@@ -19,7 +19,7 @@ import { mdiAccountCircleOutline } from "@mdi/js";
 
 const Header = () => {
     let token = localStorage.getItem("token");
-    const location = useLocation().pathname.split("/")[2];
+    const location = useLocation().pathname.split("/")[1];
     const h3 = headerInfo();
     const AccountIcon = () => {
         return (
@@ -40,7 +40,7 @@ const Header = () => {
                     Blog
                 </NavLink>
             </h1>
-            {!token && location === "public" && (
+            {location === "public" && (
                 <NavLink to="/login">
                     <button className="login-btn-header">Login</button>
                 </NavLink>
@@ -61,7 +61,7 @@ function App() {
 
     useEffect(() => {
         const redirectLogin = () => {
-            const currentUrl = location.pathname.split("/")[2];
+            const currentUrl = location.pathname.split("/")[1];
             if (currentUrl !== "login" && !guest) {
                 nav("/login");
             }

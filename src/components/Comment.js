@@ -59,7 +59,7 @@ export const NewComment = () => {
 };
 const ConditionalBtn = ({ setDeleteMode }) => {
     const location = useLocation();
-    const currentUrl = location.pathname.split("/")[2];
+    const currentUrl = location.pathname.split("/")[1];
     if (currentUrl === "public") {
         return;
     }
@@ -83,7 +83,7 @@ export const PostComment = (props) => {
                 <ConditionalBtn setDeleteMode={setDeleteMode} />
             ) : (
                 <ConfirmDeletionForm
-                    warningText={"Do you really want to delete this Comment?2"}
+                    warningText={"Do you really want to delete this Comment?"}
                     setDeleteMode={setDeleteMode}
                     postID={postID}
                     commentID={commentID}

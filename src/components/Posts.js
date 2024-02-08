@@ -4,7 +4,7 @@ import { formatDate, savePostId } from "../utils";
 const Post = ({ title, timestamp, text, id }) => {
     let postLink = `/public/post/${id}`;
     const location = useLocation();
-    const currentUrl = location.pathname.split("/")[2];
+    const currentUrl = location.pathname.split("/")[1];
     if (currentUrl === "profile") {
         postLink = `/profile/post/${id}`;
     }
@@ -27,7 +27,7 @@ export const AllPost = ({ allPosts, author }) => {
         authorPost = JSON.parse(localStorage.getItem("author"));
     }
     const location = useLocation();
-    const currentUrl = location.pathname.split("/")[2];
+    const currentUrl = location.pathname.split("/")[1];
     return (
         <>
             {currentUrl === "profile" && <h1>All Yours Post</h1>}
