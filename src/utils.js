@@ -23,11 +23,11 @@ export const headerInfo = () => {
     let token = localStorage.getItem("token");
     const profile = {
         text: "Profile",
-        url: "/react-blog-app/profile",
+        url: "/profile",
     };
     const login = {
         text: "Login",
-        url: "/react-blog-app/login",
+        url: "/login",
     };
     if (token) {
         return profile;

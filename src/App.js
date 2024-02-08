@@ -36,12 +36,12 @@ const Header = () => {
     return (
         <div className="header">
             <h1>
-                <NavLink to="react-blog-app/public" className="back-home">
+                <NavLink to="/public" className="back-home">
                     Blog
                 </NavLink>
             </h1>
             {!token && location === "public" && (
-                <NavLink to="react-blog-app/login">
+                <NavLink to="/login">
                     <button className="login-btn-header">Login</button>
                 </NavLink>
             )}
@@ -63,21 +63,21 @@ function App() {
         const redirectLogin = () => {
             const currentUrl = location.pathname.split("/")[2];
             if (currentUrl !== "login" && !guest) {
-                nav("react-blog-app/login");
+                nav("/login");
             }
         };
         if (!token && !guest) {
             redirectLogin();
         }
         if (token) {
-            nav("react-blog-app/public");
+            nav("/public");
         }
     }, []);
     return (
         <div className="App">
             <Header guest={guest} />
             <Routes>
-                <Route path="react-blog-app/*">
+                <Route path="/*">
                     <Route
                         path="login"
                         element={

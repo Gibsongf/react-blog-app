@@ -2,11 +2,11 @@ import { NavLink, useLocation } from "react-router-dom";
 import { formatDate, savePostId } from "../utils";
 
 const Post = ({ title, timestamp, text, id }) => {
-    let postLink = `/react-blog-app/public/post/${id}`;
+    let postLink = `/public/post/${id}`;
     const location = useLocation();
     const currentUrl = location.pathname.split("/")[2];
     if (currentUrl === "profile") {
-        postLink = `/react-blog-app/profile/post/${id}`;
+        postLink = `/profile/post/${id}`;
     }
     return (
         <div className="post">

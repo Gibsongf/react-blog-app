@@ -37,7 +37,7 @@ const PostInformation = ({ title, author, text, timestamp }) => {
         <div className="post-information">
             <h2 className="post-title">{title}</h2>
             <h2 className="post-author">
-                <NavLink to="/react-blog-app/profile">
+                <NavLink to="/profile">
                     {author.first_name} {author.last_name}
                 </NavLink>
             </h2>

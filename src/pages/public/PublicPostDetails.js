@@ -17,7 +17,7 @@ const PostInformation = ({ title, authorInfo, text, timestamp }) => {
         <div className="post-information">
             <h2 className="post-title">{title}</h2>
             <NavLink
-                to={`/react-blog-app/public/author/${authorInfo._id}`}
+                to={`/public/author/${authorInfo._id}`}
                 onClick={saveAuthorId}
             >
                 <h2 className="post-author">{fullName}</h2>

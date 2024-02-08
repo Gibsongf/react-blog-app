@@ -9,8 +9,8 @@ const Post = ({ title, author, timestamp, text, id }) => {
     let postLink = `post/${id}`;
 
     if (author._id === localStorage.getItem("userID")) {
-        authorLink = `/react-blog-app/profile`;
-        postLink = `/react-blog-app/profile/post/${id}`;
+        authorLink = `/profile`;
+        postLink = `/profile/post/${id}`;
     }
     const saveAuthorId = (e) => {
         if (localStorage["authorID"]) {
